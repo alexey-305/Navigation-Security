@@ -34,6 +34,7 @@
 		37141C932FE1391A00D09402 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37141C8E2FE1391A00D09402 /* APIService.swift */; };
 		37141C942FE1391A00D09402 /* CategoryQuotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37141C902FE1391A00D09402 /* CategoryQuotesViewController.swift */; };
 		37141C962FE1392900D09402 /* RandomQuoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37141C952FE1392900D09402 /* RandomQuoteViewController.swift */; };
+		37281BA52FEA852E0025FA8F /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37281BA42FEA852E0025FA8F /* KeychainManager.swift */; };
 		374DC20E2FBAF6C000C362FF /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374DC20D2FBAF6C000C362FF /* AppErrors.swift */; };
 		3760243F2FBC5C5B0084A9CF /* AudioPlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3760243E2FBC5C5B0084A9CF /* AudioPlayerService.swift */; };
 		376AEC502F9F5ED700408171 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 376AEC4F2F9F5ED700408171 /* SceneDelegate.swift */; };
@@ -100,6 +101,7 @@
 		37141C8F2FE1391A00D09402 /* CategoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewController.swift; sourceTree = "<group>"; };
 		37141C902FE1391A00D09402 /* CategoryQuotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryQuotesViewController.swift; sourceTree = "<group>"; };
 		37141C952FE1392900D09402 /* RandomQuoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomQuoteViewController.swift; sourceTree = "<group>"; };
+		37281BA42FEA852E0025FA8F /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		374DC20D2FBAF6C000C362FF /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
 		3760243E2FBC5C5B0084A9CF /* AudioPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerService.swift; sourceTree = "<group>"; };
 		376AEC4F2F9F5ED700408171 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 				37A3FFAA2FC6E4AF002BEE70 /* Planet.swift */,
 				37A3FFAC2FC6E6BF002BEE70 /* TodoModel.swift */,
 				37BFC0162FE29103004636FF /* PostModel.xcdatamodeld */,
+				37281BA42FEA852E0025FA8F /* KeychainManager.swift */,
 				37BFC0192FE29201004636FF /* CoreDataManager.swift */,
 				37BFC01B2FE2921C004636FF /* FavoritesViewController.swift */,
 			);
@@ -508,6 +511,7 @@
 				37141C862FE1376600D09402 /* Quote.swift in Sources */,
 				37A3FFAD2FC6E6C0002BEE70 /* TodoModel.swift in Sources */,
 				37BFC0182FE29103004636FF /* PostModel.xcdatamodeld in Sources */,
+				37281BA52FEA852E0025FA8F /* KeychainManager.swift in Sources */,
 				376AEC5C2F9F5FD700408171 /* LoginFactory.swift in Sources */,
 				37DB33F72FBC672B00CF70EE /* FeedViewController.swift in Sources */,
 				36528E39284F700900965BA4 /* ExtensionUIImage.swift in Sources */,
