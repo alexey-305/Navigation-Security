@@ -69,6 +69,7 @@
 		37D31DB52FBB3A8F007E122A /* Depeche Mode-Little 15.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37D31DB42FBB3A8F007E122A /* Depeche Mode-Little 15.mp3 */; };
 		37DB33F72FBC672B00CF70EE /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DB33F62FBC672B00CF70EE /* FeedViewController.swift */; };
 		85D097636814B180D7EF52D6 /* Pods_Navigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */; };
+		9A2B44D898A29CF8CBAD5CC4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,6 +137,7 @@
 		37DB33F62FBC672B00CF70EE /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		3D3EEF4896CA2177C6B7CEA1 /* Pods-Navigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.release.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.release.xcconfig"; sourceTree = "<group>"; };
 		4194F2E9C5C2123CBADD1C4B /* Pods-Navigation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.debug.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.debug.xcconfig"; sourceTree = "<group>"; };
+		BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Navigation/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -160,6 +162,7 @@
 				3601A2A528490DDF000D261A /* Products */,
 				DDB23EBB804AA647F674F8C1 /* Pods */,
 				703B0219F96D5B04931A997F /* Frameworks */,
+				BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -522,6 +525,7 @@
 				3601A2C228495DDF000D261A /* Post.swift in Sources */,
 				36528E3C284F725E00965BA4 /* LayoutConstants.swift in Sources */,
 				37A4D1582FB44DAA00D4BEC2 /* LoginInspector.swift in Sources */,
+				9A2B44D898A29CF8CBAD5CC4 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
