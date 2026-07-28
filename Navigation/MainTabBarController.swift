@@ -73,6 +73,14 @@ class MainTabBarController: UITabBarController {
         )
         let nav5 = UINavigationController(rootViewController: favoritesVC)
         
-        viewControllers = [nav1, nav2, nav3, nav4, nav5]
+        let mapVC = MapViewController()
+        mapVC.tabBarItem = UITabBarItem(
+            title: "Карта",
+            image: UIImage(systemName: "map"),
+            tag: 5
+        )
+        let nav6 = UINavigationController(rootViewController: mapVC)
+        
+        viewControllers = [nav1, nav2, nav3, nav4, nav5, nav6]
     }
 }
