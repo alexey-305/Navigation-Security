@@ -5,6 +5,11 @@ class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         setupTabs()
         setupTabBarAppearance()
+        setupMoreTabTitle()
+    }
+    
+    private func setupMoreTabTitle() {
+        moreNavigationController.tabBarItem.title = "Ещё"
     }
     
     private func setupTabBarAppearance() {
@@ -81,6 +86,6 @@ class MainTabBarController: UITabBarController {
         )
         let nav6 = UINavigationController(rootViewController: mapVC)
         
-        viewControllers = [nav1, nav2, nav3, nav4, nav5, nav6]
+        viewControllers = [nav1, nav2, nav3, nav6, nav5, nav4]
     }
 }
