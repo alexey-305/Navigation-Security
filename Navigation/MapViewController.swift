@@ -11,17 +11,17 @@ class MapViewController: UIViewController {
         return map
     }()
 
-    private lazy var routeButton = CustomButton(title: "Построить маршрут") { [weak self] in
+    private lazy var routeButton = CustomButton(title: "map.button.route".localized) { [weak self] in
         self?.routeButtonTapped()
     }
 
-    private lazy var clearButton = CustomButton(title: "Очистить точки", backgroundColor: .systemGray) { [weak self] in
+    private lazy var clearButton = CustomButton(title: "map.button.clear".localized, backgroundColor: .systemGray) { [weak self] in
         self?.clearButtonTapped()
     }
 
     private let hintLabel: UILabel = {
         let label = UILabel()
-        label.text = "Долгое нажатие на карте — поставить точку"
+        label.text = "map.hint".localized
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .secondaryLabel
         label.textAlignment = .center
@@ -38,7 +38,7 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Карта"
+        title = "map.title".localized
 
         setupViews()
         setupConstraints()
@@ -119,7 +119,7 @@ class MapViewController: UIViewController {
 
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
-        annotation.title = "Точка \(mapView.annotations.count + 1)"
+        annotation.title = "map.pin.format".localized(mapView.annotations.count + 1)
         mapView.addAnnotation(annotation)
 
         print("📍 Добавлена точка: \(coordinate.latitude), \(coordinate.longitude)")
@@ -128,12 +128,12 @@ class MapViewController: UIViewController {
     // MARK: - Задание 1.2: маршрут от пользователя до точки
     private func routeButtonTapped() {
         guard let userLocation = mapView.userLocation.location else {
-            showAlert(message: "Не удалось определить местоположение пользователя")
+            showAlert(message: "map.alert.no_location".localized)
             return
         }
 
         guard let destinationAnnotation = mapView.annotations.first(where: { !($0 is MKUserLocation) }) else {
-            showAlert(message: "Сначала поставьте точку на карте (долгое нажатие)")
+            showAlert(message: "map.alert.no_pin".localized)
             return
         }
 
@@ -153,7 +153,7 @@ class MapViewController: UIViewController {
 
             if let error = error {
                 print("❌ Ошибка построения маршрута: \(error)")
-                self.showAlert(message: "Не удалось построить маршрут")
+                self.showAlert(message: "map.alert.route_failed".localized)
                 return
             }
 
@@ -182,7 +182,7 @@ class MapViewController: UIViewController {
 
     private func showAlert(message: String) {
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "ОК", style: .default))
+        alert.addAction(UIAlertAction(title: "common.ok".localized, style: .default))
         present(alert, animated: true)
     }
 }
@@ -194,7 +194,7 @@ extension MapViewController: CLLocationManagerDelegate {
         case .authorizedWhenInUse, .authorizedAlways:
             manager.startUpdatingLocation()
         case .denied, .restricted:
-            showAlert(message: "Доступ к геолокации запрещён. Включите его в настройках, чтобы видеть своё местоположение на карте.")
+            showAlert(message: "map.alert.location_denied".localized)
         case .notDetermined:
             break
         @unknown default:

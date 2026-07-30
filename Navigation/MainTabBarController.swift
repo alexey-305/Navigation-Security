@@ -9,7 +9,7 @@ class MainTabBarController: UITabBarController {
     }
     
     private func setupMoreTabTitle() {
-        moreNavigationController.tabBarItem.title = "Ещё"
+        moreNavigationController.tabBarItem.title = "tabbar.more".localized
     }
     
     private func setupTabBarAppearance() {
@@ -40,7 +40,7 @@ class MainTabBarController: UITabBarController {
     private func setupTabs() {
         let randomVC = RandomQuoteViewController()
         randomVC.tabBarItem = UITabBarItem(
-            title: "Случайная",
+            title: "tabbar.random".localized,
             image: UIImage(systemName: "quote.bubble"),
             tag: 0
         )
@@ -48,7 +48,7 @@ class MainTabBarController: UITabBarController {
         
         let allVC = AllQuotesViewController()
         allVC.tabBarItem = UITabBarItem(
-            title: "Все цитаты",
+            title: "tabbar.all_quotes".localized,
             image: UIImage(systemName: "list.bullet"),
             tag: 1
         )
@@ -56,7 +56,7 @@ class MainTabBarController: UITabBarController {
         
         let categoriesVC = CategoriesViewController()
         categoriesVC.tabBarItem = UITabBarItem(
-            title: "Категории",
+            title: "tabbar.categories".localized,
             image: UIImage(systemName: "folder"),
             tag: 2
         )
@@ -64,7 +64,7 @@ class MainTabBarController: UITabBarController {
         
         let feedVC = FeedViewController()
         feedVC.tabBarItem = UITabBarItem(
-            title: "Лента",
+            title: "tabbar.feed".localized,
             image: UIImage(systemName: "newspaper"),
             tag: 3
         )
@@ -72,7 +72,7 @@ class MainTabBarController: UITabBarController {
         
         let favoritesVC = FavoritesViewController()
         favoritesVC.tabBarItem = UITabBarItem(
-            title: "Избранное",
+            title: "tabbar.favorites".localized,
             image: UIImage(systemName: "heart"),
             tag: 4
         )
@@ -80,7 +80,7 @@ class MainTabBarController: UITabBarController {
         
         let mapVC = MapViewController()
         mapVC.tabBarItem = UITabBarItem(
-            title: "Карта",
+            title: "tabbar.map".localized,
             image: UIImage(systemName: "map"),
             tag: 5
         )
