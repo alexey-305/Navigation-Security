@@ -21,7 +21,7 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Лента"
+        title = "feed.title".localized
         
         setupTableView()        // сначала настраиваем таблицу и dataSource
         setupDoubleTapGesture() // потом жест
@@ -73,7 +73,7 @@ class FeedViewController: UIViewController {
         
         // Проверка на дубликат инкапсулирована в CoreDataManager
         if CoreDataManager.shared.isPostAlreadySaved(id: postId) {
-            showAlert(title: "Уже в избранном", message: "Пост уже сохранён")
+            showAlert(title: "feed.alert.already_favorite.title".localized, message: "feed.alert.already_favorite.message".localized)
             return
         }
         
@@ -86,14 +86,14 @@ class FeedViewController: UIViewController {
             imageName: post.image
         )
         
-        showAlert(title: "Добавлено в избранное ❤️", message: "Пост сохранён")
+        showAlert(title: "feed.alert.added.title".localized, message: "feed.alert.added.message".localized)
     }
     
     // MARK: - Helpers
     
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: "common.ok".localized, style: .default))
         present(alert, animated: true)
     }
 }
@@ -119,7 +119,8 @@ extension FeedViewController: UITableViewDataSource {
         cell?.textLabel?.numberOfLines = 2
         cell?.textLabel?.font = .systemFont(ofSize: 16)
         
-        cell?.detailTextLabel?.text = "✍️ \(post.author)  ❤️ \(post.likes)  👁️ \(post.views)"
+        let likesText = "likes_count".localized(count: post.likes)
+        cell?.detailTextLabel?.text = "feed.cell.subtitle_format".localized(post.author, likesText, post.views)
         cell?.detailTextLabel?.font = .systemFont(ofSize: 12)
         cell?.detailTextLabel?.textColor = .gray
         

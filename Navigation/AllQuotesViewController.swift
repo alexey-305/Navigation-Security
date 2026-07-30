@@ -16,7 +16,7 @@ class AllQuotesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Все цитаты"
+        title = "all_quotes.title".localized
         setupTableView()
         loadData()
     }

@@ -11,13 +11,13 @@ class RandomQuoteViewController: UIViewController {
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Нажмите кнопку, чтобы загрузить цитату"
+        label.text = "random_quote.hint".localized
         return label
     }()
     
     private let loadButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Загрузить цитату", for: .normal)
+        button.setTitle("random_quote.button.load".localized, for: .normal)
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
@@ -28,7 +28,7 @@ class RandomQuoteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Случайная цитата"
+        title = "random_quote.title".localized
         setupUI()
         loadButton.addTarget(self, action: #selector(loadQuote), for: .touchUpInside)
     }
@@ -52,19 +52,19 @@ class RandomQuoteViewController: UIViewController {
     
     @objc private func loadQuote() {
         loadButton.isEnabled = false
-        loadButton.setTitle("Загрузка...", for: .normal)
+        loadButton.setTitle("random_quote.button.loading".localized, for: .normal)
         
         apiService.fetchRandomQuote { [weak self] result in
             DispatchQueue.main.async {
                 self?.loadButton.isEnabled = true
-                self?.loadButton.setTitle("Загрузить цитату", for: .normal)
+                self?.loadButton.setTitle("random_quote.button.load".localized, for: .normal)
                 
                 switch result {
                 case .success(let quote):
                     self?.quoteLabel.text = quote.value
-                    self?.realmService.saveQuote(text: quote.value, category: quote.category ?? "Без категории")
+                    self?.realmService.saveQuote(text: quote.value, category: quote.category ?? "random_quote.category.none".localized)
                 case .failure(let error):
-                    self?.quoteLabel.text = "Ошибка: \(error.localizedDescription)"
+                    self?.quoteLabel.text = "random_quote.error.format".localized(error.localizedDescription)
                 }
             }
         }

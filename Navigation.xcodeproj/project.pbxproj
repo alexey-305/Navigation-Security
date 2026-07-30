@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F3E4FD0AA8E1F41F18C043C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E0546BA8D319E9AF54D5F76 /* Localizable.strings */; };
 		3601A2A828490DDF000D261A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3601A2A728490DDF000D261A /* AppDelegate.swift */; };
 		3601A2B128490DDF000D261A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3601A2B028490DDF000D261A /* Assets.xcassets */; };
 		3601A2B428490DDF000D261A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3601A2B228490DDF000D261A /* LaunchScreen.storyboard */; };
@@ -70,6 +71,10 @@
 		37DB33F72FBC672B00CF70EE /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DB33F62FBC672B00CF70EE /* FeedViewController.swift */; };
 		85D097636814B180D7EF52D6 /* Pods_Navigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */; };
 		9A2B44D898A29CF8CBAD5CC4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */; };
+		9CCD4FB8B7E8062FDC3917EF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAF143FA980353A8F3D59350 /* Localizable.strings */; };
+		AED94356B7E1BB0773BDC0CA /* ExtensionString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBE42A39C2DDD581AAA8BFC /* ExtensionString.swift */; };
+		B328441D9A9D7997F832F712 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = F8814A1F9F7BE422DD45A7DB /* Localizable.stringsdict */; };
+		CC9A4E0E8417CB20D80F78CA /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 39AE4212906CC1DD58DC495F /* Localizable.stringsdict */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -135,10 +140,15 @@
 		37D31DAE2FBB0C48007E122A /* Depeche Mode-Walking in My Shoes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Depeche Mode-Walking in My Shoes.mp3"; sourceTree = "<group>"; };
 		37D31DB42FBB3A8F007E122A /* Depeche Mode-Little 15.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Depeche Mode-Little 15.mp3"; sourceTree = "<group>"; };
 		37DB33F62FBC672B00CF70EE /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		39AE4212906CC1DD58DC495F /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Localizable.stringsdict; path = Navigation/en.lproj/Localizable.stringsdict; sourceTree = SOURCE_ROOT; };
 		3D3EEF4896CA2177C6B7CEA1 /* Pods-Navigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.release.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.release.xcconfig"; sourceTree = "<group>"; };
 		4194F2E9C5C2123CBADD1C4B /* Pods-Navigation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.debug.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.debug.xcconfig"; sourceTree = "<group>"; };
+		5E0546BA8D319E9AF54D5F76 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Navigation/ru.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Navigation/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DAF143FA980353A8F3D59350 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Navigation/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		DDBE42A39C2DDD581AAA8BFC /* ExtensionString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExtensionString.swift; path = Navigation/Library/ExtensionString.swift; sourceTree = SOURCE_ROOT; };
+		F8814A1F9F7BE422DD45A7DB /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Localizable.stringsdict; path = Navigation/ru.lproj/Localizable.stringsdict; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +173,11 @@
 				DDB23EBB804AA647F674F8C1 /* Pods */,
 				703B0219F96D5B04931A997F /* Frameworks */,
 				BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */,
+				DDBE42A39C2DDD581AAA8BFC /* ExtensionString.swift */,
+				5E0546BA8D319E9AF54D5F76 /* Localizable.strings */,
+				DAF143FA980353A8F3D59350 /* Localizable.strings */,
+				F8814A1F9F7BE422DD45A7DB /* Localizable.stringsdict */,
+				39AE4212906CC1DD58DC495F /* Localizable.stringsdict */,
 			);
 			sourceTree = "<group>";
 		};
@@ -391,6 +406,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 3601A29B28490DDF000D261A;
 			packageReferences = (
@@ -418,6 +434,10 @@
 				37D31DB32FBB0C48007E122A /* Depeche Mode-Walking in My Shoes.mp3 in Resources */,
 				3601A2B428490DDF000D261A /* LaunchScreen.storyboard in Resources */,
 				3601A2B128490DDF000D261A /* Assets.xcassets in Resources */,
+				2F3E4FD0AA8E1F41F18C043C /* Localizable.strings in Resources */,
+				9CCD4FB8B7E8062FDC3917EF /* Localizable.strings in Resources */,
+				B328441D9A9D7997F832F712 /* Localizable.stringsdict in Resources */,
+				CC9A4E0E8417CB20D80F78CA /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,6 +546,7 @@
 				36528E3C284F725E00965BA4 /* LayoutConstants.swift in Sources */,
 				37A4D1582FB44DAA00D4BEC2 /* LoginInspector.swift in Sources */,
 				9A2B44D898A29CF8CBAD5CC4 /* MapViewController.swift in Sources */,
+				AED94356B7E1BB0773BDC0CA /* ExtensionString.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
