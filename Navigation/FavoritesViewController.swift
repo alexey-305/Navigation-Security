@@ -58,7 +58,7 @@ class FavoritesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         title = "favorites.title".localized
         
         navigationItem.rightBarButtonItems = [filterButton, clearFilterButton]
@@ -192,7 +192,7 @@ extension FavoritesViewController: UITableViewDataSource {
         let likesText = "likes_count".localized(count: Int(post.likesCount))
         cell?.detailTextLabel?.text = "favorites.cell.subtitle_format".localized(authorText, likesText)
         cell?.detailTextLabel?.font = .systemFont(ofSize: 12)
-        cell?.detailTextLabel?.textColor = .gray
+        cell?.detailTextLabel?.textColor = AppColors.secondaryText
         
         return cell ?? UITableViewCell()
     }

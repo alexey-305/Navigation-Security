@@ -15,7 +15,7 @@ class CategoriesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         title = "categories.title".localized
         setupTableView()
         loadData()
