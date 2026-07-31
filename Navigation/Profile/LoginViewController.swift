@@ -89,6 +89,20 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Задача 1: кнопка авторизации по биометрии
+    private let biometricButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.tintColor = AppColors.accent
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.borderColor = AppColors.separator.cgColor
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
+        return button
+    }()
+    
+    private let localAuthorizationService = LocalAuthorizationService()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,6 +114,7 @@ class LoginViewController: UIViewController {
         setupButtonAction()
         setupTapGesture()
         bindViewModel()
+        setupBiometricButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,6 +127,7 @@ class LoginViewController: UIViewController {
         guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
         loginTextField.layer.borderColor = AppColors.separator.cgColor
         passwordTextField.layer.borderColor = AppColors.separator.cgColor
+        biometricButton.layer.borderColor = AppColors.separator.cgColor
     }
     
     // MARK: - Setup
@@ -130,6 +146,7 @@ class LoginViewController: UIViewController {
         contentView.addSubview(logoImageView)
         contentView.addSubview(stackView)
         contentView.addSubview(loginButton)
+        contentView.addSubview(biometricButton)
         
         stackView.addArrangedSubview(loginTextField)
         stackView.addArrangedSubview(passwordTextField)
@@ -162,7 +179,12 @@ class LoginViewController: UIViewController {
             loginButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             loginButton.heightAnchor.constraint(equalToConstant: 50),
-            loginButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            
+            biometricButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 16),
+            biometricButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            biometricButton.widthAnchor.constraint(equalToConstant: 50),
+            biometricButton.heightAnchor.constraint(equalToConstant: 50),
+            biometricButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
     
@@ -178,6 +200,38 @@ class LoginViewController: UIViewController {
     private func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
+    }
+    
+    // MARK: - Задача 1 / 2*: настройка кнопки биометрии
+    private func setupBiometricButton() {
+        let biometricType = localAuthorizationService.availableBiometricType
+        
+        switch biometricType {
+        case .faceID:
+            biometricButton.setImage(UIImage(systemName: "faceid"), for: .normal)
+            biometricButton.isHidden = false
+        case .touchID:
+            biometricButton.setImage(UIImage(systemName: "touchid"), for: .normal)
+            biometricButton.isHidden = false
+        case .none:
+            biometricButton.isHidden = true
+        }
+        
+        biometricButton.addTarget(self, action: #selector(biometricButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func biometricButtonTapped() {
+        localAuthorizationService.authorizeIfPossible { [weak self] success, error in
+            guard let self = self else { return }
+            
+            if success {
+                self.onLoginSuccess?()
+            } else {
+                // Задача 2*: показываем пользователю причину неудачи
+                let message = error?.localizedDescription ?? "Не удалось выполнить авторизацию по биометрии"
+                self.showError(message)
+            }
+        }
     }
     
     // MARK: - Actions
