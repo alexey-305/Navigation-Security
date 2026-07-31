@@ -1,10 +1,9 @@
 import UIKit
-import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
     // MARK: - Properties
-    private var loginDelegate: LoginViewControllerDelegate?
+    private let viewModel = LoginViewModel()
     var onLoginSuccess: (() -> Void)?
     
     // MARK: - UI Elements
@@ -93,15 +92,14 @@ class LoginViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("🟢 viewDidLoad")
         view.backgroundColor = AppColors.background
         
         setupViews()
         setupConstraints()
         setupTextFields()
         setupButtonAction()
-        setupDelegate()
         setupTapGesture()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -117,10 +115,12 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Setup
-    private func setupDelegate() {
-        let inspector = LoginInspector(viewController: self)
-        self.loginDelegate = inspector
-        print("🟢 Делегат установлен: \(inspector)")
+    private func bindViewModel() {
+        viewModel.onStateChanged = { [weak self] state in
+            DispatchQueue.main.async {
+                self?.handle(state: state)
+            }
+        }
     }
     
     private func setupViews() {
@@ -173,7 +173,6 @@ class LoginViewController: UIViewController {
     
     private func setupButtonAction() {
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        print("🟢 Кнопке назначен метод loginButtonTapped")
     }
     
     private func setupTapGesture() {
@@ -195,72 +194,34 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func loginButtonTapped() {
-        print("🔵🔵🔵 КНОПКА НАЖАТА! 🔵🔵🔵")
-        
-        guard let email = loginTextField.text, !email.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else {
-            print("❌ Поля пустые")
-            showError("Пожалуйста, заполните все поля")
-            return
-        }
-        
-        print("📧 Email: \(email)")
-        print("🔒 Password: \(password)")
-        
-        guard email.contains("@") else {
-            print("❌ Неверный формат email")
-            showError("Введите корректный email")
-            return
-        }
-        
-        guard password.count >= 6 else {
-            print("❌ Пароль слишком короткий")
-            showError("Пароль должен быть не менее 6 символов")
-            return
-        }
-        
-        loginButton.isEnabled = false
-        loginButton.setTitle("Загрузка...", for: .normal)
-        
-        print("🟢 loginDelegate = \(loginDelegate != nil ? "НЕ nil" : "nil")")
-        
-        print("🟢 Вызываем loginDelegate?.checkCredentials")
-        loginDelegate?.checkCredentials(email: email, password: password)
-        
-        if loginDelegate == nil {
-            print("⚠️ Делегат nil! Вызываем Firebase напрямую")
-            Auth.auth().signIn(withEmail: email, password: password) { result, error in
-                print("📡 Прямой вызов Firebase завершён")
-                if let error = error {
-                    print("❌ Ошибка: \(error)")
-                } else {
-                    print("✅ Успех!")
-                    self.onLoginSuccess?()
-                }
-            }
+        let email = loginTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
+        viewModel.updateState(.loginButtonDidTap(email: email, password: password))
+    }
+    
+    // MARK: - State handling
+    private func handle(state: LoginViewState) {
+        switch state {
+        case .idle:
+            break
+        case .loading:
+            loginButton.isEnabled = false
+            loginButton.setTitle("Загрузка...", for: .normal)
+        case .success:
+            loginButton.isEnabled = true
+            loginButton.setTitle("Log In", for: .normal)
+            onLoginSuccess?()
+        case .error(let message):
+            loginButton.isEnabled = true
+            loginButton.setTitle("Log In", for: .normal)
+            loginButton.alpha = 1.0
+            showError(message)
         }
     }
     
-    // MARK: - Firebase Response
-    func loginSuccess() {
-        DispatchQueue.main.async {
-            print("✅✅✅ loginSuccess вызван! ✅✅✅")
-            self.loginButton.isEnabled = true
-            self.loginButton.setTitle("Log In", for: .normal)
-            self.onLoginSuccess?()
-        }
-    }
-    
-    func showError(_ message: String) {
-        DispatchQueue.main.async {
-            print("❌ showError: \(message)")
-            self.loginButton.isEnabled = true
-            self.loginButton.setTitle("Log In", for: .normal)
-            self.loginButton.alpha = 1.0
-            
-            let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alert, animated: true)
-        }
+    private func showError(_ message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }
