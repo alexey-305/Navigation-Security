@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20F64D7BBC795B982504EBFC /* ExtensionUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855545AD9EBE3E5D3D399A8D /* ExtensionUIColor.swift */; };
 		2F3E4FD0AA8E1F41F18C043C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E0546BA8D319E9AF54D5F76 /* Localizable.strings */; };
 		3601A2A828490DDF000D261A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3601A2A728490DDF000D261A /* AppDelegate.swift */; };
 		3601A2B128490DDF000D261A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3601A2B028490DDF000D261A /* Assets.xcassets */; };
@@ -144,6 +145,7 @@
 		3D3EEF4896CA2177C6B7CEA1 /* Pods-Navigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.release.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.release.xcconfig"; sourceTree = "<group>"; };
 		4194F2E9C5C2123CBADD1C4B /* Pods-Navigation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.debug.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.debug.xcconfig"; sourceTree = "<group>"; };
 		5E0546BA8D319E9AF54D5F76 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Navigation/ru.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
+		855545AD9EBE3E5D3D399A8D /* ExtensionUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExtensionUIColor.swift; path = Navigation/Library/ExtensionUIColor.swift; sourceTree = SOURCE_ROOT; };
 		BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Navigation/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF143FA980353A8F3D59350 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Navigation/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
@@ -178,6 +180,7 @@
 				DAF143FA980353A8F3D59350 /* Localizable.strings */,
 				F8814A1F9F7BE422DD45A7DB /* Localizable.stringsdict */,
 				39AE4212906CC1DD58DC495F /* Localizable.stringsdict */,
+				855545AD9EBE3E5D3D399A8D /* ExtensionUIColor.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -547,6 +550,7 @@
 				37A4D1582FB44DAA00D4BEC2 /* LoginInspector.swift in Sources */,
 				9A2B44D898A29CF8CBAD5CC4 /* MapViewController.swift in Sources */,
 				AED94356B7E1BB0773BDC0CA /* ExtensionString.swift in Sources */,
+				20F64D7BBC795B982504EBFC /* ExtensionUIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

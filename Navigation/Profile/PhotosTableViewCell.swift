@@ -14,14 +14,14 @@ class PhotosTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Photos"
         label.font = .systemFont(ofSize: 24, weight: .bold)
-        label.textColor = .black
+        label.textColor = AppColors.primaryText
         return label
     }()
 
     var arrowImage: UIImageView = {
         let arrow = UIImageView()
         arrow.translatesAutoresizingMaskIntoConstraints = false
-        arrow.image = UIImage(systemName: "arrow.right")?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        arrow.image = UIImage(systemName: "arrow.right")?.withTintColor(AppColors.primaryText, renderingMode: .alwaysOriginal)
         return arrow
     }()
 

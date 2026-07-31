@@ -32,11 +32,12 @@ class LoginViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Email"
         textField.font = UIFont.systemFont(ofSize: 16)
-        textField.backgroundColor = .systemGray6
+        textField.backgroundColor = AppColors.secondaryBackground
         textField.layer.cornerRadius = 10
         textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         textField.layer.borderWidth = 0.5
-        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderColor = AppColors.separator.cgColor
+        textField.textColor = AppColors.primaryText
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         textField.leftViewMode = .always
         textField.autocapitalizationType = .none
@@ -50,11 +51,12 @@ class LoginViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "Password"
         textField.font = UIFont.systemFont(ofSize: 16)
-        textField.backgroundColor = .systemGray6
+        textField.backgroundColor = AppColors.secondaryBackground
         textField.layer.cornerRadius = 10
         textField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         textField.layer.borderWidth = 0.5
-        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderColor = AppColors.separator.cgColor
+        textField.textColor = AppColors.primaryText
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         textField.leftViewMode = .always
         textField.isSecureTextEntry = true
@@ -77,9 +79,9 @@ class LoginViewController: UIViewController {
     private let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(AppColors.onAccentText, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.backgroundColor = UIColor(red: 72/255, green: 133/255, blue: 204/255, alpha: 1.0)
+        button.backgroundColor = AppColors.accent
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -92,7 +94,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("🟢 viewDidLoad")
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         
         setupViews()
         setupConstraints()
@@ -105,6 +107,13 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+        loginTextField.layer.borderColor = AppColors.separator.cgColor
+        passwordTextField.layer.borderColor = AppColors.separator.cgColor
     }
     
     // MARK: - Setup

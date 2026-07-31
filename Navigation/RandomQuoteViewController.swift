@@ -27,7 +27,7 @@ class RandomQuoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         title = "random_quote.title".localized
         setupUI()
         loadButton.addTarget(self, action: #selector(loadQuote), for: .touchUpInside)

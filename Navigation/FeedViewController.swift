@@ -20,7 +20,7 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         title = "feed.title".localized
         
         setupTableView()        // сначала настраиваем таблицу и dataSource
@@ -122,7 +122,7 @@ extension FeedViewController: UITableViewDataSource {
         let likesText = "likes_count".localized(count: post.likes)
         cell?.detailTextLabel?.text = "feed.cell.subtitle_format".localized(post.author, likesText, post.views)
         cell?.detailTextLabel?.font = .systemFont(ofSize: 12)
-        cell?.detailTextLabel?.textColor = .gray
+        cell?.detailTextLabel?.textColor = AppColors.secondaryText
         
         return cell ?? UITableViewCell()
     }

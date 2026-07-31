@@ -15,7 +15,7 @@ class MainTabBarController: UITabBarController {
     private func setupTabBarAppearance() {
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
+        appearance.backgroundColor = AppColors.background
         
         let normalAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.systemGray
