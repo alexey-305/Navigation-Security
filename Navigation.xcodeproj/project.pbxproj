@@ -70,6 +70,7 @@
 		37D31DB32FBB0C48007E122A /* Depeche Mode-Walking in My Shoes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37D31DAE2FBB0C48007E122A /* Depeche Mode-Walking in My Shoes.mp3 */; };
 		37D31DB52FBB3A8F007E122A /* Depeche Mode-Little 15.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37D31DB42FBB3A8F007E122A /* Depeche Mode-Little 15.mp3 */; };
 		37DB33F72FBC672B00CF70EE /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DB33F62FBC672B00CF70EE /* FeedViewController.swift */; };
+		4E7B44169DA9B5DD340B358C /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC406FAC729B1A4FB9B87F /* LocalNotificationsService.swift */; };
 		85D097636814B180D7EF52D6 /* Pods_Navigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */; };
 		9A2B44D898A29CF8CBAD5CC4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */; };
 		9AC445A59CD55B53456380EF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2241B9B6C466E30D8F0EC2 /* LoginViewModel.swift */; };
@@ -158,6 +159,7 @@
 		5C2241B9B6C466E30D8F0EC2 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewModel.swift; path = Navigation/ViewModels/LoginViewModel.swift; sourceTree = SOURCE_ROOT; };
 		5E0546BA8D319E9AF54D5F76 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Navigation/ru.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
 		61B649DBAA4A416A44A81520 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeedViewModel.swift; path = Navigation/ViewModels/FeedViewModel.swift; sourceTree = SOURCE_ROOT; };
+		78FC406FAC729B1A4FB9B87F /* LocalNotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocalNotificationsService.swift; path = Navigation/Services/LocalNotificationsService.swift; sourceTree = SOURCE_ROOT; };
 		855545AD9EBE3E5D3D399A8D /* ExtensionUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExtensionUIColor.swift; path = Navigation/Library/ExtensionUIColor.swift; sourceTree = SOURCE_ROOT; };
 		BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Navigation/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,6 +210,7 @@
 				855545AD9EBE3E5D3D399A8D /* ExtensionUIColor.swift */,
 				61B649DBAA4A416A44A81520 /* FeedViewModel.swift */,
 				5C2241B9B6C466E30D8F0EC2 /* LoginViewModel.swift */,
+				78FC406FAC729B1A4FB9B87F /* LocalNotificationsService.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -614,6 +617,7 @@
 				20F64D7BBC795B982504EBFC /* ExtensionUIColor.swift in Sources */,
 				1A684C6CB172E16D03494637 /* FeedViewModel.swift in Sources */,
 				9AC445A59CD55B53456380EF /* LoginViewModel.swift in Sources */,
+				4E7B44169DA9B5DD340B358C /* LocalNotificationsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
