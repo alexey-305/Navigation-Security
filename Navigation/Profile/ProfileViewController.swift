@@ -10,12 +10,9 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private var posts: [Post] = [
-        Post(author: "cat_lover_2024", description: "Сегодня мой кот поймал солнечного зайчика! 🐱☀️", image: "1", likes: 120, views: 456),
-        Post(author: "hipster_cat", description: "Новый диван - новое место для сна.", image: "2", likes: 89, views: 234),
-        Post(author: "crazy_cat_lady", description: "Купила новую игрушку, а кот играет с коробкой.", image: "3", likes: 256, views: 789),
-        Post(author: "philosopher_cat", description: "Зачем люди ходят на работу?", image: "4", likes: 445, views: 1234)
-    ]
+    private var posts: [Post] {
+        PostStorage.shared.posts
+    }
     
     private let testUser = User(
         login: "1234",
@@ -31,6 +28,7 @@ final class ProfileViewController: UIViewController {
         
         setupTableView()
         setupConstraints()
+        setupDragAndDrop()
         
         tableView.estimatedRowHeight = 400
         tableView.rowHeight = UITableView.automaticDimension
@@ -51,6 +49,13 @@ final class ProfileViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    // MARK: - Задача 1, пункт 1: включаем drag & drop у таблицы
+    private func setupDragAndDrop() {
+        tableView.dragInteractionEnabled = true
+        tableView.dragDelegate = self
+        tableView.dropDelegate = self
     }
 }
 
@@ -92,5 +97,78 @@ extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         coordinator?.showPostDetails(posts[indexPath.row])
+    }
+}
+
+// MARK: - UITableViewDragDelegate (Задача 1, пункт 3)
+extension ProfileViewController: UITableViewDragDelegate {
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        let post = posts[indexPath.row]
+        
+        let imageProvider = NSItemProvider(object: post.image)
+        let imageDragItem = UIDragItem(itemProvider: imageProvider)
+        imageDragItem.localObject = post
+        
+        let textProvider = NSItemProvider(object: post.description as NSString)
+        let textDragItem = UIDragItem(itemProvider: textProvider)
+        
+        return [imageDragItem, textDragItem]
+    }
+}
+
+// MARK: - UITableViewDropDelegate (Задача 1, пункт 4-7)
+extension ProfileViewController: UITableViewDropDelegate {
+    func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
+        session.canLoadObjects(ofClass: UIImage.self) && session.canLoadObjects(ofClass: NSString.self)
+    }
+    
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        UITableViewDropProposal(operation: .copy, intent: .insertAtDestinationIndexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        // Пункт 4: рассчитываем место вставки из coordinator
+        let destinationIndexPath: IndexPath
+        if let indexPath = coordinator.destinationIndexPath {
+            destinationIndexPath = indexPath
+        } else {
+            let section = tableView.numberOfSections - 1
+            let row = tableView.numberOfRows(inSection: max(section, 0))
+            destinationIndexPath = IndexPath(row: row, section: max(section, 0))
+        }
+        
+        // Пункт 5: загружаем картинки и строки из coordinator
+        var droppedImage: UIImage?
+        var droppedText: String?
+        let loadGroup = DispatchGroup()
+        
+        loadGroup.enter()
+        coordinator.session.loadObjects(ofClass: UIImage.self) { items in
+            droppedImage = items.first as? UIImage
+            loadGroup.leave()
+        }
+        
+        loadGroup.enter()
+        coordinator.session.loadObjects(ofClass: NSString.self) { items in
+            droppedText = items.first as? String
+            loadGroup.leave()
+        }
+        
+        loadGroup.notify(queue: .main) { [weak self] in
+            guard let self = self, let image = droppedImage, let text = droppedText else { return }
+            
+            // Пункт 6: создаём пост и добавляем в глобальный PostStorage
+            let newPost = Post(
+                author: "Drag&Drop",
+                description: text,
+                image: image,
+                likes: 0,
+                views: 0
+            )
+            PostStorage.shared.add(newPost)
+            
+            // Пункт 7: вставляем новый ряд в таблицу
+            tableView.insertRows(at: [destinationIndexPath], with: .automatic)
+        }
     }
 }

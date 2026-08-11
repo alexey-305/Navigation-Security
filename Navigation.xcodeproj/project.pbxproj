@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18C74B538CA77D316D9A990A /* PostStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A2940D9A2DA37CB83F131C6 /* PostStorage.swift */; };
 		1A684C6CB172E16D03494637 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B649DBAA4A416A44A81520 /* FeedViewModel.swift */; };
 		20F64D7BBC795B982504EBFC /* ExtensionUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855545AD9EBE3E5D3D399A8D /* ExtensionUIColor.swift */; };
 		2F3E4FD0AA8E1F41F18C043C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5E0546BA8D319E9AF54D5F76 /* Localizable.strings */; };
@@ -156,6 +157,7 @@
 		37DB33F62FBC672B00CF70EE /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		37E7C2B1301C7AD90094B0FB /* NavigationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavigationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39AE4212906CC1DD58DC495F /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Localizable.stringsdict; path = Navigation/en.lproj/Localizable.stringsdict; sourceTree = SOURCE_ROOT; };
+		3A2940D9A2DA37CB83F131C6 /* PostStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostStorage.swift; path = Navigation/Profile/PostStorage.swift; sourceTree = SOURCE_ROOT; };
 		3D3EEF4896CA2177C6B7CEA1 /* Pods-Navigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.release.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.release.xcconfig"; sourceTree = "<group>"; };
 		4194F2E9C5C2123CBADD1C4B /* Pods-Navigation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.debug.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.debug.xcconfig"; sourceTree = "<group>"; };
 		5C2241B9B6C466E30D8F0EC2 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewModel.swift; path = Navigation/ViewModels/LoginViewModel.swift; sourceTree = SOURCE_ROOT; };
@@ -214,6 +216,7 @@
 				5C2241B9B6C466E30D8F0EC2 /* LoginViewModel.swift */,
 				78FC406FAC729B1A4FB9B87F /* LocalNotificationsService.swift */,
 				02D44A438C1230408CFE8C69 /* LocalAuthorizationService.swift */,
+				3A2940D9A2DA37CB83F131C6 /* PostStorage.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -622,6 +625,7 @@
 				9AC445A59CD55B53456380EF /* LoginViewModel.swift in Sources */,
 				4E7B44169DA9B5DD340B358C /* LocalNotificationsService.swift in Sources */,
 				9B81484BBEE10B8889006830 /* LocalAuthorizationService.swift in Sources */,
+				18C74B538CA77D316D9A990A /* PostStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 enum FeedViewState: Equatable {
     case idle
@@ -34,10 +34,10 @@ final class FeedViewModel {
     
     func loadPosts() {
         posts = [
-            Post(author: "Алексей", description: "Первый пост в ленте! Сегодня отличная погода ☀️", image: "img1", likes: 5, views: 100),
-            Post(author: "Мария", description: "Изучаю Swift и создаю крутые приложения 🚀", image: "img2", likes: 12, views: 250),
-            Post(author: "Иван", description: "CoreData — мощный инструмент для хранения данных", image: "img3", likes: 8, views: 180),
-            Post(author: "Елена", description: "Realm vs CoreData: что выбрать для проекта? 🤔", image: "img4", likes: 15, views: 320)
+            Post(author: "Алексей", description: "Первый пост в ленте! Сегодня отличная погода ☀️", image: UIImage(named: "img1") ?? UIImage(), likes: 5, views: 100, imageAssetName: "img1"),
+            Post(author: "Мария", description: "Изучаю Swift и создаю крутые приложения 🚀", image: UIImage(named: "img2") ?? UIImage(), likes: 12, views: 250, imageAssetName: "img2"),
+            Post(author: "Иван", description: "CoreData — мощный инструмент для хранения данных", image: UIImage(named: "img3") ?? UIImage(), likes: 8, views: 180, imageAssetName: "img3"),
+            Post(author: "Елена", description: "Realm vs CoreData: что выбрать для проекта? 🤔", image: UIImage(named: "img4") ?? UIImage(), likes: 15, views: 320, imageAssetName: "img4")
         ]
         state = .loaded
     }
@@ -59,7 +59,7 @@ final class FeedViewModel {
             text: post.description,
             author: post.author,
             likes: post.likes,
-            imageName: post.image
+            imageName: post.imageAssetName
         )
         state = .addedToFavorites
     }
