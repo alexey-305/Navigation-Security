@@ -1,3 +1,8 @@
+//
+//  APIService.swift
+//  Navigation
+//
+
 import Foundation
 
 struct ChuckNorrisQuote: Decodable {
@@ -6,31 +11,41 @@ struct ChuckNorrisQuote: Decodable {
 }
 
 class APIService {
-    private let baseURL = "https://api.chucknorris.io/jokes/random"
+    
+    // MARK: - Локальные цитаты на русском
+    
+    private let quotes: [(value: String, category: String)] = [
+        ("Чак Норрис может разделить на ноль.", "математика"),
+        ("Чак Норрис уже был у тебя дома. Дважды.", "факты"),
+        ("Когда Чак Норрис входит в комнату, он не включает свет. Он выключает темноту.", "факты"),
+        ("Чак Норрис может убить двух зайцев одним камнем. Он также может убить зайца двумя камнями.", "факты"),
+        ("Змея укусила Чака Норриса. После пяти дней агонии змея умерла.", "природа"),
+        ("Чак Норрис не мочит руки — вода сама боится прикоснуться к нему.", "факты"),
+        ("Чак Норрис посчитал до бесконечности. Дважды.", "математика"),
+        ("Чак Норрис может поджечь воду.", "природа"),
+        ("Когда Чак Норрис смотрит в зеркало, отражения нет. Потому что отражений Чака Норриса не существует.", "факты"),
+        ("Чак Норрис однажды выиграл в шахматы у компьютера, играя в крестики-нолики.", "математика"),
+        ("Время ждёт никого. Кроме Чака Норриса.", "факты"),
+        ("Чак Норрис не гуглит. Google ищет Чака Норриса.", "технологии"),
+        ("iPhone не имеет калькулятора. Чак Норрис считает за него.", "технологии"),
+        ("Чак Норрис написал программу без единой ошибки с первого раза.", "технологии"),
+        ("Когда Чак Норрис пишет код, компилятор боится найти ошибки.", "технологии"),
+        ("Чак Норрис может нажать Ctrl+Z и отменить вчерашний день.", "технологии"),
+        ("Смерть однажды пришла за Чаком Норрисом. Теперь смерти нет.", "факты"),
+        ("Чак Норрис родился в доме, который сам и построил.", "факты"),
+        ("Крокодил Данди носит браслет из зубов Чака Норриса.", "природа"),
+        ("Чак Норрис может слышать тишину.", "природа")
+    ]
+    
+    // MARK: - Public
     
     func fetchRandomQuote(completion: @escaping (Result<ChuckNorrisQuote, Error>) -> Void) {
-        guard let url = URL(string: baseURL) else {
-            completion(.failure(NSError(domain: "Invalid URL", code: -1)))
-            return
+        // Имитируем задержку сети для реалистичности
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            guard let self = self else { return }
+            let random = self.quotes.randomElement()!
+            let quote = ChuckNorrisQuote(value: random.value, category: random.category)
+            completion(.success(quote))
         }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(NSError(domain: "No data", code: -1)))
-                return
-            }
-            
-            do {
-                let quote = try JSONDecoder().decode(ChuckNorrisQuote.self, from: data)
-                completion(.success(quote))
-            } catch {
-                completion(.failure(error))
-            }
-        }.resume()
     }
 }

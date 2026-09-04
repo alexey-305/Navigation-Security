@@ -58,8 +58,8 @@ class FavoritesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        title = "Избранное"
+        view.backgroundColor = AppColors.background
+        title = "favorites.title".localized
         
         navigationItem.rightBarButtonItems = [filterButton, clearFilterButton]
         
@@ -117,30 +117,30 @@ class FavoritesViewController: UIViewController {
     
     @objc private func filterButtonTapped() {
         let alert = UIAlertController(
-            title: "Фильтр по автору",
-            message: "Введите имя автора для поиска",
+            title: "favorites.filter.title".localized,
+            message: "favorites.filter.message".localized,
             preferredStyle: .alert
         )
         
         alert.addTextField { textField in
-            textField.placeholder = "Имя автора"
+            textField.placeholder = "favorites.filter.placeholder".localized
             textField.autocapitalizationType = .words
         }
         
-        let applyAction = UIAlertAction(title: "Применить", style: .default) { [weak self] _ in
+        let applyAction = UIAlertAction(title: "favorites.filter.apply".localized, style: .default) { [weak self] _ in
             guard let self = self,
                   let text = alert.textFields?.first?.text,
                   !text.isEmpty else {
-                self?.showAlert(title: "Ошибка", message: "Введите имя автора")
+                self?.showAlert(title: "common.error".localized, message: "favorites.filter.error_empty".localized)
                 return
             }
             self.currentFilterAuthor = text
             self.isFiltering = true
-            self.title = "Фильтр: \(text)"
+            self.title = "favorites.filter.applied_format".localized(text)
             self.updateFetchRequest()
         }
         
-        let cancelAction = UIAlertAction(title: "Отмена", style: .cancel)
+        let cancelAction = UIAlertAction(title: "common.cancel".localized, style: .cancel)
         
         alert.addAction(applyAction)
         alert.addAction(cancelAction)
@@ -151,14 +151,14 @@ class FavoritesViewController: UIViewController {
     @objc private func clearFilterTapped() {
         isFiltering = false
         currentFilterAuthor = nil
-        title = "Избранное"
+        title = "favorites.title".localized
         updateFetchRequest()
-        showAlert(title: "Фильтр снят", message: "Показаны все посты")
+        showAlert(title: "favorites.filter.cleared.title".localized, message: "favorites.filter.cleared.message".localized)
     }
     
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: "common.ok".localized, style: .default))
         present(alert, animated: true)
     }
 }
@@ -184,13 +184,15 @@ extension FavoritesViewController: UITableViewDataSource {
         
         let post = fetchedResultsController.object(at: indexPath)
         
-        cell?.textLabel?.text = post.titleText ?? "Без названия"
+        cell?.textLabel?.text = post.titleText ?? "favorites.post.untitled".localized
         cell?.textLabel?.numberOfLines = 2
         cell?.textLabel?.font = .systemFont(ofSize: 16)
         
-        cell?.detailTextLabel?.text = "✍️ \(post.authorName ?? "Неизвестный")  ❤️ \(post.likesCount)"
+        let authorText = post.authorName ?? "favorites.post.unknown_author".localized
+        let likesText = "likes_count".localized(count: Int(post.likesCount))
+        cell?.detailTextLabel?.text = "favorites.cell.subtitle_format".localized(authorText, likesText)
         cell?.detailTextLabel?.font = .systemFont(ofSize: 12)
-        cell?.detailTextLabel?.textColor = .gray
+        cell?.detailTextLabel?.textColor = AppColors.secondaryText
         
         return cell ?? UITableViewCell()
     }
@@ -211,7 +213,7 @@ extension FavoritesViewController: UITableViewDelegate {
         
         let deleteAction = UIContextualAction(
             style: .destructive,
-            title: "Удалить"
+            title: "common.delete".localized
         ) { [weak self] _, _, completion in
             guard let self = self else {
                 completion(false)

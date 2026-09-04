@@ -19,7 +19,7 @@ class PhotosViewController: UIViewController {
         )
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = AppColors.background
         
         collectionView.register(
             PhotosCollectionViewCell.self,
@@ -40,7 +40,7 @@ class PhotosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         title = "Photos"
         
         setupCollectionView()
