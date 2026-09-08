@@ -1,8 +1,10 @@
-import UIKit
+import Foundation
 
 enum FeedViewState: Equatable {
     case idle
+    case loading
     case loaded
+    case failed(String)
     case alreadyInFavorites
     case addedToFavorites
 }
@@ -27,19 +29,31 @@ final class FeedViewModel {
     var onStateChanged: ((FeedViewState) -> Void)?
     
     private let favoritesStore: FavoritesStoring
+    private let postsService: PostsServiceProtocol
     
-    init(favoritesStore: FavoritesStoring = CoreDataManager.shared) {
+    init(
+        favoritesStore: FavoritesStoring = CoreDataManager.shared,
+        postsService: PostsServiceProtocol = PostsService()
+    ) {
         self.favoritesStore = favoritesStore
+        self.postsService = postsService
     }
     
+    /// Загружает ленту постов из локального хранилища (Realm)
     func loadPosts() {
-        posts = [
-            Post(author: "Алексей", description: "Первый пост в ленте! Сегодня отличная погода ☀️", image: UIImage(named: "img1") ?? UIImage(), likes: 5, views: 100, imageAssetName: "img1"),
-            Post(author: "Мария", description: "Изучаю Swift и создаю крутые приложения 🚀", image: UIImage(named: "img2") ?? UIImage(), likes: 12, views: 250, imageAssetName: "img2"),
-            Post(author: "Иван", description: "CoreData — мощный инструмент для хранения данных", image: UIImage(named: "img3") ?? UIImage(), likes: 8, views: 180, imageAssetName: "img3"),
-            Post(author: "Елена", description: "Realm vs CoreData: что выбрать для проекта? 🤔", image: UIImage(named: "img4") ?? UIImage(), likes: 15, views: 320, imageAssetName: "img4")
-        ]
-        state = .loaded
+        state = .loading
+        
+        postsService.fetchPosts { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let posts):
+                self.posts = posts
+                self.state = .loaded
+            case .failure(let error):
+                self.state = .failed(error.localizedDescription)
+            }
+        }
     }
     
     /// Пытается сохранить пост по индексу в избранное.

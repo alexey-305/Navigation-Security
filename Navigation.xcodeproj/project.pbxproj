@@ -73,7 +73,9 @@
 		37DB33F72FBC672B00CF70EE /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DB33F62FBC672B00CF70EE /* FeedViewController.swift */; };
 		4E7B44169DA9B5DD340B358C /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC406FAC729B1A4FB9B87F /* LocalNotificationsService.swift */; };
 		85D097636814B180D7EF52D6 /* Pods_Navigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */; };
+		86014CFCBE808FE144879E79 /* PostObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C4061B40F8F7FEE8FC9E3 /* PostObject.swift */; };
 		879A3704CA40F6456448E508 /* Pods_NavigationTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FD31818660578C37A5D5A00 /* Pods_NavigationTests.framework */; };
+		8FBB4721BE3722490875C2A8 /* PostsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC5742C9B5338C2181702A3F /* PostsService.swift */; };
 		9A2B44D898A29CF8CBAD5CC4 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */; };
 		9AC445A59CD55B53456380EF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2241B9B6C466E30D8F0EC2 /* LoginViewModel.swift */; };
 		9B81484BBEE10B8889006830 /* LocalAuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D44A438C1230408CFE8C69 /* LocalAuthorizationService.swift */; };
@@ -162,6 +164,7 @@
 		3A2940D9A2DA37CB83F131C6 /* PostStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostStorage.swift; path = Navigation/Profile/PostStorage.swift; sourceTree = SOURCE_ROOT; };
 		3D3EEF4896CA2177C6B7CEA1 /* Pods-Navigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.release.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.release.xcconfig"; sourceTree = "<group>"; };
 		4194F2E9C5C2123CBADD1C4B /* Pods-Navigation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.debug.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.debug.xcconfig"; sourceTree = "<group>"; };
+		534C4061B40F8F7FEE8FC9E3 /* PostObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostObject.swift; path = Navigation/PostObject.swift; sourceTree = SOURCE_ROOT; };
 		595418A20F8FD925108EAF2D /* Pods-NavigationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NavigationTests.debug.xcconfig"; path = "Target Support Files/Pods-NavigationTests/Pods-NavigationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5C2241B9B6C466E30D8F0EC2 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginViewModel.swift; path = Navigation/ViewModels/LoginViewModel.swift; sourceTree = SOURCE_ROOT; };
 		5E0546BA8D319E9AF54D5F76 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Navigation/ru.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
@@ -169,6 +172,7 @@
 		78FC406FAC729B1A4FB9B87F /* LocalNotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocalNotificationsService.swift; path = Navigation/Services/LocalNotificationsService.swift; sourceTree = SOURCE_ROOT; };
 		855545AD9EBE3E5D3D399A8D /* ExtensionUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExtensionUIColor.swift; path = Navigation/Library/ExtensionUIColor.swift; sourceTree = SOURCE_ROOT; };
 		9FD31818660578C37A5D5A00 /* Pods_NavigationTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NavigationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC5742C9B5338C2181702A3F /* PostsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostsService.swift; path = Navigation/Services/PostsService.swift; sourceTree = SOURCE_ROOT; };
 		BC634A9C86F5FCB17F71C4C7 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = Navigation/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Navigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAF143FA980353A8F3D59350 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = Navigation/en.lproj/Localizable.strings; sourceTree = SOURCE_ROOT; };
@@ -177,17 +181,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		37E7C2B2301C7AD90094B0FB /* NavigationTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
-			path = NavigationTests;
-			sourceTree = "<group>";
-		};
+		37E7C2B2301C7AD90094B0FB /* NavigationTests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (); explicitFileTypes = {}; explicitFolders = (); path = NavigationTests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +226,8 @@
 				78FC406FAC729B1A4FB9B87F /* LocalNotificationsService.swift */,
 				02D44A438C1230408CFE8C69 /* LocalAuthorizationService.swift */,
 				3A2940D9A2DA37CB83F131C6 /* PostStorage.swift */,
+				534C4061B40F8F7FEE8FC9E3 /* PostObject.swift */,
+				AC5742C9B5338C2181702A3F /* PostsService.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -661,6 +657,8 @@
 				4E7B44169DA9B5DD340B358C /* LocalNotificationsService.swift in Sources */,
 				9B81484BBEE10B8889006830 /* LocalAuthorizationService.swift in Sources */,
 				18C74B538CA77D316D9A990A /* PostStorage.swift in Sources */,
+				86014CFCBE808FE144879E79 /* PostObject.swift in Sources */,
+				8FBB4721BE3722490875C2A8 /* PostsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
