@@ -151,6 +151,11 @@
 			<key>orderHint</key>
 			<integer>22</integer>
 		</dict>
+		<key>Pods-NavigationTests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>PromisesObjC-FBLPromises_Privacy.xcscheme</key>
 		<dict>
 			<key>isShown</key>
