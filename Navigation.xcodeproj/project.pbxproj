@@ -49,7 +49,6 @@
 		379694CD2FAB0F9400218731 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379694CB2FAB0F9400218731 /* FeedModel.swift */; };
 		379694CF2FAB102200218731 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379694CE2FAB102200218731 /* CustomButton.swift */; };
 		37A3FCA12FD0205F008D5841 /* CheckerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A3FCA02FD0205F008D5841 /* CheckerService.swift */; };
-		37A3FCA52FD026B5008D5841 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37A3FCA42FD026B5008D5841 /* GoogleService-Info.plist */; };
 		37A3FFAB2FC6E4AF002BEE70 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A3FFAA2FC6E4AF002BEE70 /* Planet.swift */; };
 		37A3FFAD2FC6E6C0002BEE70 /* TodoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A3FFAC2FC6E6BF002BEE70 /* TodoModel.swift */; };
 		37A4D14A2FB441A000D4BEC2 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4D1492FB441A000D4BEC2 /* Coordinator.swift */; };
@@ -69,6 +68,7 @@
 		37D31DB12FBB0C48007E122A /* Depeche Mode-Behind The Wheel.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37D31DAA2FBB0C48007E122A /* Depeche Mode-Behind The Wheel.mp3 */; };
 		37D31DB32FBB0C48007E122A /* Depeche Mode-Walking in My Shoes.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37D31DAE2FBB0C48007E122A /* Depeche Mode-Walking in My Shoes.mp3 */; };
 		37D31DB52FBB3A8F007E122A /* Depeche Mode-Little 15.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 37D31DB42FBB3A8F007E122A /* Depeche Mode-Little 15.mp3 */; };
+		37DA3AFA3050323A00D8EAAF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37DA3AF93050323A00D8EAAF /* GoogleService-Info.plist */; };
 		37DB33F72FBC672B00CF70EE /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DB33F62FBC672B00CF70EE /* FeedViewController.swift */; };
 		4E7B44169DA9B5DD340B358C /* LocalNotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FC406FAC729B1A4FB9B87F /* LocalNotificationsService.swift */; };
 		85D097636814B180D7EF52D6 /* Pods_Navigation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA50D85B022463B41F6B05BC /* Pods_Navigation.framework */; };
@@ -136,7 +136,6 @@
 		379694CB2FAB0F9400218731 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
 		379694CE2FAB102200218731 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		37A3FCA02FD0205F008D5841 /* CheckerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckerService.swift; sourceTree = "<group>"; };
-		37A3FCA42FD026B5008D5841 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		37A3FFAA2FC6E4AF002BEE70 /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		37A3FFAC2FC6E6BF002BEE70 /* TodoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoModel.swift; sourceTree = "<group>"; };
 		37A4D1492FB441A000D4BEC2 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -156,6 +155,7 @@
 		37D31DAC2FBB0C48007E122A /* Depeche Mode-Its No Good.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Depeche Mode-Its No Good.mp3"; sourceTree = "<group>"; };
 		37D31DAE2FBB0C48007E122A /* Depeche Mode-Walking in My Shoes.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Depeche Mode-Walking in My Shoes.mp3"; sourceTree = "<group>"; };
 		37D31DB42FBB3A8F007E122A /* Depeche Mode-Little 15.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "Depeche Mode-Little 15.mp3"; sourceTree = "<group>"; };
+		37DA3AF93050323A00D8EAAF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		37DB33F62FBC672B00CF70EE /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		37E7C2B1301C7AD90094B0FB /* NavigationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavigationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39AE4212906CC1DD58DC495F /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Localizable.stringsdict; path = Navigation/en.lproj/Localizable.stringsdict; sourceTree = SOURCE_ROOT; };
@@ -241,12 +241,12 @@
 		3601A2A628490DDF000D261A /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				37DA3AF93050323A00D8EAAF /* GoogleService-Info.plist */,
 				37141C8D2FE1391A00D09402 /* AllQuotesViewController.swift */,
 				37141C8E2FE1391A00D09402 /* APIService.swift */,
 				37141C8F2FE1391A00D09402 /* CategoriesViewController.swift */,
 				37141C902FE1391A00D09402 /* CategoryQuotesViewController.swift */,
 				37141C952FE1392900D09402 /* RandomQuoteViewController.swift */,
-				37A3FCA42FD026B5008D5841 /* GoogleService-Info.plist */,
 				37141C852FE1376600D09402 /* Quote.swift */,
 				37141C872FE1378E00D09402 /* Category.swift */,
 				37141C832FE136C200D09402 /* RealmService.swift */,
@@ -504,11 +504,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				37D31DAF2FBB0C48007E122A /* Depeche Mode-Dangerous.mp3 in Resources */,
-				37A3FCA52FD026B5008D5841 /* GoogleService-Info.plist in Resources */,
 				37D31DB02FBB0C48007E122A /* Depeche Mode-Its No Good.mp3 in Resources */,
 				37D31DB52FBB3A8F007E122A /* Depeche Mode-Little 15.mp3 in Resources */,
 				37D31DB12FBB0C48007E122A /* Depeche Mode-Behind The Wheel.mp3 in Resources */,
 				37D31DB32FBB0C48007E122A /* Depeche Mode-Walking in My Shoes.mp3 in Resources */,
+				37DA3AFA3050323A00D8EAAF /* GoogleService-Info.plist in Resources */,
 				3601A2B428490DDF000D261A /* LaunchScreen.storyboard in Resources */,
 				3601A2B128490DDF000D261A /* Assets.xcassets in Resources */,
 				2F3E4FD0AA8E1F41F18C043C /* Localizable.strings in Resources */,
