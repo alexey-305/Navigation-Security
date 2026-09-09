@@ -11,8 +11,16 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private var posts: [Post] {
-        PostStorage.shared.posts
+    private let postsService: PostsServiceProtocol
+    private var posts: [Post] = []
+    
+    init(postsService: PostsServiceProtocol = PostsService()) {
+        self.postsService = postsService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // Показываем реального авторизованного пользователя вместо тестового
@@ -34,9 +42,22 @@ final class ProfileViewController: UIViewController {
         setupConstraints()
         setupDragAndDrop()
         setupLogoutButton()
+        loadPosts()
         
         tableView.estimatedRowHeight = 400
         tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    private func loadPosts() {
+        postsService.fetchPosts { [weak self] result in
+            guard let self = self else { return }
+            if case .success(let posts) = result {
+                self.posts = posts
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     private func setupLogoutButton() {
@@ -168,6 +189,8 @@ extension ProfileViewController: UITableViewDropDelegate {
             destinationIndexPath = IndexPath(row: row, section: max(section, 0))
         }
         
+        print("📍 Drop приземлился на indexPath: \(destinationIndexPath)")
+        
         // Пункт 5: загружаем картинки и строки из coordinator
         var droppedImage: UIImage?
         var droppedText: String?
@@ -188,18 +211,12 @@ extension ProfileViewController: UITableViewDropDelegate {
         loadGroup.notify(queue: .main) { [weak self] in
             guard let self = self, let image = droppedImage, let text = droppedText else { return }
             
-            // Пункт 6: создаём пост и добавляем в глобальный PostStorage
-            let newPost = Post(
-                author: "Drag&Drop",
-                description: text,
-                image: image,
-                likes: 0,
-                views: 0
-            )
-            PostStorage.shared.add(newPost)
-            
-            // Пункт 7: вставляем новый ряд в таблицу
-            tableView.insertRows(at: [destinationIndexPath], with: .automatic)
+            // Пункт 6: создаём пост через тот же PostsService, что и лента —
+            // одно хранилище постов на всё приложение (Realm), а не отдельный массив.
+            // Пункт 7: как только пост реально сохранён — обновляем таблицу
+            self.postsService.addPost(author: "Drag&Drop", description: text, image: image) { [weak self] _ in
+                self?.loadPosts()
+            }
         }
     }
 }
