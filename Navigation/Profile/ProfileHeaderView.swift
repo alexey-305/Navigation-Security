@@ -18,7 +18,7 @@ class ProfileHeaderView: UIView {
     private let fullNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Hipster Cat"
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = AppFonts.title
         label.textColor = AppColors.primaryText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -27,7 +27,7 @@ class ProfileHeaderView: UIView {
     private let statusLabel: UILabel = {
         let label = UILabel()
         label.text = "Waiting for something..."
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = AppFonts.callout
         label.textColor = AppColors.secondaryText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -36,7 +36,7 @@ class ProfileHeaderView: UIView {
     private let statusTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter new status"
-        textField.font = UIFont.systemFont(ofSize: 15)
+        textField.font = AppFonts.body
         textField.borderStyle = .roundedRect
         textField.backgroundColor = AppColors.background
         textField.textColor = AppColors.primaryText
