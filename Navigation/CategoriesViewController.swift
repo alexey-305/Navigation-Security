@@ -1,10 +1,8 @@
 import UIKit
-import RealmSwift
 
 class CategoriesViewController: UIViewController {
-    private let realmService = RealmService.shared
-    private var categories: Results<Category>?
-    private var notificationToken: NotificationToken?
+    
+    private let viewModel = CategoriesViewModel()
     
     private let tableView: UITableView = {
         let tv = UITableView()
@@ -18,7 +16,8 @@ class CategoriesViewController: UIViewController {
         view.backgroundColor = AppColors.background
         title = "categories.title".localized
         setupTableView()
-        loadData()
+        bindViewModel()
+        viewModel.loadCategories()
     }
     
     private func setupTableView() {
@@ -33,46 +32,30 @@ class CategoriesViewController: UIViewController {
         tableView.delegate = self
     }
     
-    private func loadData() {
-        categories = realmService.getAllCategories()
-        
-        notificationToken = categories?.observe { [weak self] changes in
-            switch changes {
-            case .initial:
-                self?.tableView.reloadData()
-            case .update(_, let deletions, let insertions, let modifications):
-                self?.tableView.performBatchUpdates {
-                    self?.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
-                    self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
-                    self?.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
-                }
-            case .error(let error):
-                print("Realm error: \(error)")
-            }
+    private func bindViewModel() {
+        viewModel.onCategoriesChanged = { [weak self] in
+            self?.tableView.reloadData()
         }
-    }
-    
-    deinit {
-        notificationToken?.invalidate()
     }
 }
 
 extension CategoriesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories?.count ?? 0
+        return viewModel.categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        if let category = categories?[indexPath.row] {
-            cell.textLabel?.text = "\(category.name) (\(category.quotes.count))"
-        }
+        let category = viewModel.categories[indexPath.row]
+        cell.textLabel?.text = "\(category.name) (\(category.quotesCount))"
+        cell.textLabel?.font = AppFonts.body
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let category = categories?[indexPath.row] else { return }
-        let vc = CategoryQuotesViewController(category: category)
+        tableView.deselectRow(at: indexPath, animated: true)
+        let category = viewModel.categories[indexPath.row]
+        let vc = CategoryQuotesViewController(categoryName: category.name)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -22,7 +22,7 @@ class MapViewController: UIViewController {
     private let hintLabel: UILabel = {
         let label = UILabel()
         label.text = "map.hint".localized
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = AppFonts.caption
         label.textColor = .secondaryLabel
         label.textAlignment = .center
         label.numberOfLines = 0

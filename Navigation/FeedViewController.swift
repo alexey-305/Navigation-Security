@@ -121,11 +121,11 @@ extension FeedViewController: UITableViewDataSource {
         
         cell?.textLabel?.text = post.description
         cell?.textLabel?.numberOfLines = 2
-        cell?.textLabel?.font = .systemFont(ofSize: 16)
+        cell?.textLabel?.font = AppFonts.body
         
         let likesText = "likes_count".localized(count: post.likes)
         cell?.detailTextLabel?.text = "feed.cell.subtitle_format".localized(post.author, likesText, post.views)
-        cell?.detailTextLabel?.font = .systemFont(ofSize: 12)
+        cell?.detailTextLabel?.font = AppFonts.caption
         cell?.detailTextLabel?.textColor = AppColors.secondaryText
         
         // Пост из Realm — картинка уже под рукой (JPEG-данные или имя ассета уже разрешены в PostsService)
