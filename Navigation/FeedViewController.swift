@@ -16,6 +16,13 @@ class FeedViewController: UIViewController {
         return tv
     }()
     
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -33,11 +40,15 @@ class FeedViewController: UIViewController {
     
     private func setupTableView() {
         view.addSubview(tableView)
+        view.addSubview(loadingIndicator)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
         tableView.dataSource = self
         tableView.delegate = self
@@ -59,8 +70,14 @@ class FeedViewController: UIViewController {
         switch state {
         case .idle:
             break
+        case .loading:
+            loadingIndicator.startAnimating()
         case .loaded:
+            loadingIndicator.stopAnimating()
             tableView.reloadData()
+        case .failed(let message):
+            loadingIndicator.stopAnimating()
+            showAlert(title: "common.error".localized, message: message)
         case .alreadyInFavorites:
             showAlert(title: "feed.alert.already_favorite.title".localized, message: "feed.alert.already_favorite.message".localized)
         case .addedToFavorites:
@@ -104,12 +121,17 @@ extension FeedViewController: UITableViewDataSource {
         
         cell?.textLabel?.text = post.description
         cell?.textLabel?.numberOfLines = 2
-        cell?.textLabel?.font = .systemFont(ofSize: 16)
+        cell?.textLabel?.font = AppFonts.body
         
         let likesText = "likes_count".localized(count: post.likes)
         cell?.detailTextLabel?.text = "feed.cell.subtitle_format".localized(post.author, likesText, post.views)
-        cell?.detailTextLabel?.font = .systemFont(ofSize: 12)
+        cell?.detailTextLabel?.font = AppFonts.caption
         cell?.detailTextLabel?.textColor = AppColors.secondaryText
+        
+        // Пост из Realm — картинка уже под рукой (JPEG-данные или имя ассета уже разрешены в PostsService)
+        // локальный/drag&drop пост — картинка уже под рукой в post.image
+        // Пост из Realm — картинка уже под рукой (JPEG-данные или имя ассета уже разрешены в PostsService)
+        cell?.imageView?.image = post.image
         
         return cell ?? UITableViewCell()
     }

@@ -1,11 +1,8 @@
 import UIKit
-import RealmSwift
 
 class CategoryQuotesViewController: UIViewController {
-    private let category: Category
-    private let realmService = RealmService.shared
-    private var quotes: Results<Quote>?
-    private var notificationToken: NotificationToken?
+    
+    private let viewModel: CategoryQuotesViewModel
     
     private let tableView: UITableView = {
         let tv = UITableView()
@@ -14,10 +11,10 @@ class CategoryQuotesViewController: UIViewController {
         return tv
     }()
     
-    init(category: Category) {
-        self.category = category
+    init(categoryName: String) {
+        self.viewModel = CategoryQuotesViewModel(categoryName: categoryName)
         super.init(nibName: nil, bundle: nil)
-        title = category.name
+        title = categoryName
     }
     
     required init?(coder: NSCoder) {
@@ -28,7 +25,8 @@ class CategoryQuotesViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = AppColors.background
         setupTableView()
-        loadData()
+        bindViewModel()
+        viewModel.loadQuotes()
     }
     
     private func setupTableView() {
@@ -42,41 +40,23 @@ class CategoryQuotesViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    private func loadData() {
-        quotes = realmService.getQuotes(for: category.name)
-        
-        notificationToken = quotes?.observe { [weak self] changes in
-            switch changes {
-            case .initial:
-                self?.tableView.reloadData()
-            case .update(_, let deletions, let insertions, let modifications):
-                self?.tableView.performBatchUpdates {
-                    self?.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
-                    self?.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: .automatic)
-                    self?.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .automatic)
-                }
-            case .error(let error):
-                print("Realm error: \(error)")
-            }
+    private func bindViewModel() {
+        viewModel.onQuotesChanged = { [weak self] in
+            self?.tableView.reloadData()
         }
-    }
-    
-    deinit {
-        notificationToken?.invalidate()
     }
 }
 
 extension CategoryQuotesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return quotes?.count ?? 0
+        return viewModel.quotes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        if let quote = quotes?[indexPath.row] {
-            cell.textLabel?.text = quote.text
-            cell.textLabel?.numberOfLines = 0
-        }
+        cell.textLabel?.text = viewModel.quotes[indexPath.row].text
+        cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.font = AppFonts.body
         return cell
     }
 }

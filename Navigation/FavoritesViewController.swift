@@ -6,8 +6,7 @@ class FavoritesViewController: UIViewController {
     // MARK: - Properties
     
     private let coreDataManager = CoreDataManager.shared
-    private var isFiltering: Bool = false
-    private var currentFilterAuthor: String?
+    private let viewModel = FavoritesViewModel()
     
     // MARK: - FetchedResultsController
     
@@ -97,13 +96,7 @@ class FavoritesViewController: UIViewController {
     
     /// Обновление предиката и повторный fetch (только при смене фильтра)
     private func updateFetchRequest() {
-        if isFiltering, let author = currentFilterAuthor, !author.isEmpty {
-            fetchedResultsController.fetchRequest.predicate = NSPredicate(
-                format: "authorName CONTAINS[cd] %@", author
-            )
-        } else {
-            fetchedResultsController.fetchRequest.predicate = nil
-        }
+        fetchedResultsController.fetchRequest.predicate = viewModel.filterPredicate
         
         do {
             try fetchedResultsController.performFetch()
@@ -130,13 +123,11 @@ class FavoritesViewController: UIViewController {
         let applyAction = UIAlertAction(title: "favorites.filter.apply".localized, style: .default) { [weak self] _ in
             guard let self = self,
                   let text = alert.textFields?.first?.text,
-                  !text.isEmpty else {
+                  self.viewModel.applyFilter(author: text) else {
                 self?.showAlert(title: "common.error".localized, message: "favorites.filter.error_empty".localized)
                 return
             }
-            self.currentFilterAuthor = text
-            self.isFiltering = true
-            self.title = "favorites.filter.applied_format".localized(text)
+            self.title = self.viewModel.navigationTitle
             self.updateFetchRequest()
         }
         
@@ -149,9 +140,8 @@ class FavoritesViewController: UIViewController {
     }
     
     @objc private func clearFilterTapped() {
-        isFiltering = false
-        currentFilterAuthor = nil
-        title = "favorites.title".localized
+        viewModel.clearFilter()
+        title = viewModel.navigationTitle
         updateFetchRequest()
         showAlert(title: "favorites.filter.cleared.title".localized, message: "favorites.filter.cleared.message".localized)
     }
@@ -186,12 +176,12 @@ extension FavoritesViewController: UITableViewDataSource {
         
         cell?.textLabel?.text = post.titleText ?? "favorites.post.untitled".localized
         cell?.textLabel?.numberOfLines = 2
-        cell?.textLabel?.font = .systemFont(ofSize: 16)
+        cell?.textLabel?.font = AppFonts.body
         
         let authorText = post.authorName ?? "favorites.post.unknown_author".localized
         let likesText = "likes_count".localized(count: Int(post.likesCount))
         cell?.detailTextLabel?.text = "favorites.cell.subtitle_format".localized(authorText, likesText)
-        cell?.detailTextLabel?.font = .systemFont(ofSize: 12)
+        cell?.detailTextLabel?.font = AppFonts.caption
         cell?.detailTextLabel?.textColor = AppColors.secondaryText
         
         return cell ?? UITableViewCell()

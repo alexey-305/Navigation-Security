@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 @testable import Navigation
 
 final class FavoritesStoringMock: FavoritesStoring {
@@ -14,19 +15,37 @@ final class FavoritesStoringMock: FavoritesStoring {
     }
 }
 
+/// Мок вместо реального обращения к Realm — возвращает заданный результат синхронно
+final class PostsServiceMock: PostsServiceProtocol {
+    var result: Result<[Post], Error> = .success([
+        Post(author: "Test Author", description: "Test description", likes: 1, views: 2)
+    ])
+    
+    func fetchPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
+        completion(result)
+    }
+    
+    func addPost(author: String, description: String, image: UIImage?, completion: @escaping (Result<Void, Error>) -> Void) {
+        completion(.success(()))
+    }
+}
+
 final class FeedViewModelTests: XCTestCase {
     
     private var favoritesStoreMock: FavoritesStoringMock!
+    private var postsServiceMock: PostsServiceMock!
     private var sut: FeedViewModel!
     
     override func setUp() {
         super.setUp()
         favoritesStoreMock = FavoritesStoringMock()
-        sut = FeedViewModel(favoritesStore: favoritesStoreMock)
+        postsServiceMock = PostsServiceMock()
+        sut = FeedViewModel(favoritesStore: favoritesStoreMock, postsService: postsServiceMock)
     }
     
     override func tearDown() {
         favoritesStoreMock = nil
+        postsServiceMock = nil
         sut = nil
         super.tearDown()
     }
@@ -44,6 +63,23 @@ final class FeedViewModelTests: XCTestCase {
         // then
         XCTAssertFalse(sut.posts.isEmpty)
         XCTAssertEqual(receivedState, .loaded)
+    }
+    
+    func test_loadPosts_serviceFailure_setsFailedStateAndKeepsPostsEmpty() {
+        // given
+        struct StubError: LocalizedError {
+            var errorDescription: String? { "Network unavailable" }
+        }
+        postsServiceMock.result = .failure(StubError())
+        var receivedState: FeedViewState?
+        sut.onStateChanged = { receivedState = $0 }
+        
+        // when
+        sut.loadPosts()
+        
+        // then
+        XCTAssertTrue(sut.posts.isEmpty)
+        XCTAssertEqual(receivedState, .failed("Network unavailable"))
     }
     
     // MARK: - addToFavorites(at:)

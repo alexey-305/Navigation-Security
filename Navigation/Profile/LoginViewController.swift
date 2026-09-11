@@ -30,7 +30,7 @@ class LoginViewController: UIViewController {
     private let loginTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Email"
-        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.font = AppFonts.body
         textField.backgroundColor = AppColors.secondaryBackground
         textField.layer.cornerRadius = 10
         textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController {
     private let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Password"
-        textField.font = UIFont.systemFont(ofSize: 16)
+        textField.font = AppFonts.body
         textField.backgroundColor = AppColors.secondaryBackground
         textField.layer.cornerRadius = 10
         textField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
@@ -79,7 +79,7 @@ class LoginViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
         button.setTitleColor(AppColors.onAccentText, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.titleLabel?.font = AppFonts.button
         button.backgroundColor = AppColors.accent
         button.layer.cornerRadius = 10
         button.clipsToBounds = true

@@ -1,4 +1,5 @@
 import UIKit
+import FirebaseAuth
 
 final class ProfileViewController: UIViewController {
     
@@ -10,16 +11,27 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private var posts: [Post] {
-        PostStorage.shared.posts
+    private let postsService: PostsServiceProtocol
+    private var posts: [Post] = []
+    
+    init(postsService: PostsServiceProtocol = PostsService()) {
+        self.postsService = postsService
+        super.init(nibName: nil, bundle: nil)
     }
     
-    private let testUser = User(
-        login: "1234",
-        fullName: "Hipster Cat",
-        avatar: UIImage(named: "avatar") ?? UIImage(),
-        status: "Waiting for something..."
-    )
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // Показываем реального авторизованного пользователя вместо тестового
+    private var currentUser: User {
+        User(
+            login: Auth.auth().currentUser?.uid ?? "",
+            fullName: Auth.auth().currentUser?.email ?? "Гость",
+            avatar: UIImage(named: "avatar") ?? UIImage(),
+            status: "Waiting for something..."
+        )
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +41,41 @@ final class ProfileViewController: UIViewController {
         setupTableView()
         setupConstraints()
         setupDragAndDrop()
+        setupLogoutButton()
+        loadPosts()
         
         tableView.estimatedRowHeight = 400
         tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    private func loadPosts() {
+        postsService.fetchPosts { [weak self] result in
+            guard let self = self else { return }
+            if case .success(let posts) = result {
+                self.posts = posts
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+    
+    private func setupLogoutButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "rectangle.portrait.and.arrow.right"),
+            style: .plain,
+            target: self,
+            action: #selector(logOutButtonTapped)
+        )
+    }
+    
+    @objc private func logOutButtonTapped() {
+        let alert = UIAlertController(title: "Выйти из аккаунта?", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Выйти", style: .destructive) { _ in
+            (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.showInitialScreenAfterLogOut()
+        })
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel))
+        present(alert, animated: true)
     }
     
     private func setupTableView() {
@@ -82,7 +126,7 @@ extension ProfileViewController: UITableViewDataSource {
 extension ProfileViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = ProfileHeaderView()
-        header.configure(with: testUser)
+        header.configure(with: currentUser)
         return header
     }
     
@@ -105,12 +149,20 @@ extension ProfileViewController: UITableViewDragDelegate {
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         let post = posts[indexPath.row]
         
-        let imageProvider = NSItemProvider(object: post.image)
-        let imageDragItem = UIDragItem(itemProvider: imageProvider)
-        imageDragItem.localObject = post
-        
         let textProvider = NSItemProvider(object: post.description as NSString)
         let textDragItem = UIDragItem(itemProvider: textProvider)
+        textDragItem.localObject = post
+        
+        // Картинка есть под рукой только у локальных/уже сохранённых постов —
+        // на случай, если она почему-то не разрешилась (image == nil),
+        // перетаскиваем только текст
+        guard let image = post.image else {
+            return [textDragItem]
+        }
+        
+        let imageProvider = NSItemProvider(object: image)
+        let imageDragItem = UIDragItem(itemProvider: imageProvider)
+        imageDragItem.localObject = post
         
         return [imageDragItem, textDragItem]
     }
@@ -137,6 +189,8 @@ extension ProfileViewController: UITableViewDropDelegate {
             destinationIndexPath = IndexPath(row: row, section: max(section, 0))
         }
         
+        print("📍 Drop приземлился на indexPath: \(destinationIndexPath)")
+        
         // Пункт 5: загружаем картинки и строки из coordinator
         var droppedImage: UIImage?
         var droppedText: String?
@@ -157,18 +211,12 @@ extension ProfileViewController: UITableViewDropDelegate {
         loadGroup.notify(queue: .main) { [weak self] in
             guard let self = self, let image = droppedImage, let text = droppedText else { return }
             
-            // Пункт 6: создаём пост и добавляем в глобальный PostStorage
-            let newPost = Post(
-                author: "Drag&Drop",
-                description: text,
-                image: image,
-                likes: 0,
-                views: 0
-            )
-            PostStorage.shared.add(newPost)
-            
-            // Пункт 7: вставляем новый ряд в таблицу
-            tableView.insertRows(at: [destinationIndexPath], with: .automatic)
+            // Пункт 6: создаём пост через тот же PostsService, что и лента —
+            // одно хранилище постов на всё приложение (Realm), а не отдельный массив.
+            // Пункт 7: как только пост реально сохранён — обновляем таблицу
+            self.postsService.addPost(author: "Drag&Drop", description: text, image: image) { [weak self] _ in
+                self?.loadPosts()
+            }
         }
     }
 }
