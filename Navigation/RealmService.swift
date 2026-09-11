@@ -114,10 +114,10 @@ class RealmService {
         guard realm.objects(PostObject.self).isEmpty else { return }
         
         let seed: [(author: String, description: String, assetName: String, likes: Int, views: Int)] = [
-            ("Алексей", "Первый пост в ленте! Сегодня отличная погода ☀️", "img1", 5, 100),
-            ("Мария", "Изучаю Swift и создаю крутые приложения 🚀", "img2", 12, 250),
-            ("Иван", "CoreData — мощный инструмент для хранения данных", "img3", 8, 180),
-            ("Елена", "Realm vs CoreData: что выбрать для проекта? 🤔", "img4", 15, 320)
+            ("Алексей", "Первый пост в ленте! Сегодня отличная погода ☀️", "post1", 5, 100),
+            ("Мария", "Изучаю Swift и создаю крутые приложения 🚀", "post2", 12, 250),
+            ("Иван", "CoreData — мощный инструмент для хранения данных", "post3", 8, 180),
+            ("Елена", "Realm vs CoreData: что выбрать для проекта? 🤔", "post4", 15, 320)
         ]
         
         do {
