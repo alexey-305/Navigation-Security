@@ -2,7 +2,16 @@ import UIKit
 
 class CategoriesViewController: UIViewController {
     
-    private let viewModel = CategoriesViewModel()
+    private let viewModel: CategoriesViewModel
+    
+    init(viewModel: CategoriesViewModel = AppDependencyContainer.shared.makeCategoriesViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let tableView: UITableView = {
         let tv = UITableView()
@@ -22,10 +31,9 @@ class CategoriesViewController: UIViewController {
     
     private func setupTableView() {
         view.addSubview(tableView)
+        tableView.pinAdaptiveWidth(in: view, horizontalPadding: 0)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         tableView.dataSource = self

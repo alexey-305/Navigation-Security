@@ -12,7 +12,7 @@ class CategoryQuotesViewController: UIViewController {
     }()
     
     init(categoryName: String) {
-        self.viewModel = CategoryQuotesViewModel(categoryName: categoryName)
+        self.viewModel = AppDependencyContainer.shared.makeCategoryQuotesViewModel(categoryName: categoryName)
         super.init(nibName: nil, bundle: nil)
         title = categoryName
     }
@@ -31,10 +31,9 @@ class CategoryQuotesViewController: UIViewController {
     
     private func setupTableView() {
         view.addSubview(tableView)
+        tableView.pinAdaptiveWidth(in: view, horizontalPadding: 0)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         tableView.dataSource = self

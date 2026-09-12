@@ -14,7 +14,7 @@ final class ProfileViewController: UIViewController {
     private let postsService: PostsServiceProtocol
     private var posts: [Post] = []
     
-    init(postsService: PostsServiceProtocol = PostsService()) {
+    init(postsService: PostsServiceProtocol = AppDependencyContainer.shared.postsService) {
         self.postsService = postsService
         super.init(nibName: nil, bundle: nil)
     }
@@ -87,10 +87,9 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupConstraints() {
+        tableView.pinAdaptiveWidth(in: view, horizontalPadding: 0)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }

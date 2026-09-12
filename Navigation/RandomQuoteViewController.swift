@@ -2,7 +2,16 @@ import UIKit
 
 class RandomQuoteViewController: UIViewController {
     
-    private let viewModel = RandomQuoteViewModel()
+    private let viewModel: RandomQuoteViewModel
+    
+    init(viewModel: RandomQuoteViewModel = AppDependencyContainer.shared.makeRandomQuoteViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let quoteLabel: UILabel = {
         let label = UILabel()
@@ -50,15 +59,13 @@ class RandomQuoteViewController: UIViewController {
         view.addSubview(offlineLabel)
         view.addSubview(loadButton)
         
+        quoteLabel.pinAdaptiveWidth(in: view, maxWidth: 600)
+        offlineLabel.pinAdaptiveWidth(in: view, maxWidth: 600)
+        
         NSLayoutConstraint.activate([
-            quoteLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             quoteLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
-            quoteLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            quoteLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             offlineLabel.topAnchor.constraint(equalTo: quoteLabel.bottomAnchor, constant: 8),
-            offlineLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            offlineLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             loadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadButton.topAnchor.constraint(equalTo: offlineLabel.bottomAnchor, constant: 22),

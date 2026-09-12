@@ -3,8 +3,17 @@ import UIKit
 class LoginViewController: UIViewController {
     
     // MARK: - Properties
-    private let viewModel = LoginViewModel()
+    private let viewModel: LoginViewModel
     var onLoginSuccess: (() -> Void)?
+    
+    init(viewModel: LoginViewModel = AppDependencyContainer.shared.makeLoginViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - UI Elements
     private let scrollView: UIScrollView = {
@@ -101,7 +110,7 @@ class LoginViewController: UIViewController {
         return button
     }()
     
-    private let localAuthorizationService = LocalAuthorizationService()
+    private let localAuthorizationService = AppDependencyContainer.shared.localAuthorizationService
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
