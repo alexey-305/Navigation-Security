@@ -26,6 +26,7 @@
 "random_quote.button.loading" = "Загрузка...";
 "random_quote.category.none" = "Без категории";
 "random_quote.error.format" = "Ошибка: %@";
+"random_quote.offline_cache" = "Нет сети — показана последняя загруженная цитата";
 
 // MARK: - All Quotes
 "all_quotes.title" = "Все цитаты";

@@ -25,8 +25,11 @@
 - **Избранное** — сохранённые посты с фильтром по автору.
 - **Карта** — геолокация пользователя, постановка меток долгим тапом,
   построение маршрута через MKDirections.
-- **Агрегатор цитат** (Random / All / Categories) — API случайных цитат,
-  локальное кеширование через Realm.
+- **Агрегатор цитат** (Random / All / Categories) — реальный сетевой запрос
+  через `URLSession` к публичному API [api.chucknorris.io](https://api.chucknorris.io)
+  (без ключа), с локальным кешированием через Realm (все загруженные цитаты) и
+  CoreData (последняя цитата — на случай отсутствия сети при следующем запуске,
+  честный offline-first сценарий, а не имитация задержки).
 
 ### Сквозная функциональность
 - Локализация (ru/en) большинства экранов, включая множественное число
@@ -63,16 +66,18 @@
 - **Realm** (зашифрован, ключ в Keychain) — цитаты и посты ленты/профиля.
   Единое хранилище: `FeedViewController` и `ProfileViewController` читают
   посты из одного и того же `PostsService`, а не из отдельных источников.
-- **CoreData** — избранные посты.
+- **CoreData** — избранные посты, а также кеш последней загруженной из сети
+  цитаты (офлайн-доступ, см. `RandomQuoteViewModel`).
 - **Firebase Auth** — учётные записи пользователей.
-- Внешние API/облачные БД (Firestore/Storage) сознательно не используются —
-  требуют привязки платёжного аккаунта (план Blaze), не подходит для учебного
-  проекта.
+- Облачные БД (Firestore/Storage) сознательно не используются — требуют
+  привязки платёжного аккаунта (план Blaze), не подходит для учебного проекта.
+  Публичный сетевой API (api.chucknorris.io) используется по-настоящему,
+  через `URLSession` — см. `APIService.swift`.
 
 ## Стек
 
 Swift, UIKit (код, без сторибордов, кроме системного `LaunchScreen`),
-Auto Layout, MVVM + Coordinator (частично), RealmSwift, CoreData,
+Auto Layout, MVVM + Coordinator (частично), RealmSwift, CoreData, URLSession,
 Firebase (Auth), MapKit, CoreLocation, LocalAuthentication, UserNotifications,
 XCTest.
 

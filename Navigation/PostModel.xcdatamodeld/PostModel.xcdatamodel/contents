@@ -9,4 +9,9 @@
         <attribute name="postText" optional="YES" attributeType="String"/>
         <attribute name="titleText" optional="YES" attributeType="String"/>
     </entity>
+    <entity name="CachedQuote" representedClassName="CachedQuote" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="String"/>
+        <attribute name="fetchedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="value" optional="YES" attributeType="String"/>
+    </entity>
 </model>

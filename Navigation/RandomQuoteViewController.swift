@@ -14,6 +14,17 @@ class RandomQuoteViewController: UIViewController {
         return label
     }()
     
+    private let offlineLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = AppFonts.caption
+        label.textColor = .systemOrange
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = true
+        return label
+    }()
+    
     private let loadButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("random_quote.button.load".localized, for: .normal)
@@ -36,6 +47,7 @@ class RandomQuoteViewController: UIViewController {
     
     private func setupUI() {
         view.addSubview(quoteLabel)
+        view.addSubview(offlineLabel)
         view.addSubview(loadButton)
         
         NSLayoutConstraint.activate([
@@ -44,8 +56,12 @@ class RandomQuoteViewController: UIViewController {
             quoteLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             quoteLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
+            offlineLabel.topAnchor.constraint(equalTo: quoteLabel.bottomAnchor, constant: 8),
+            offlineLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            offlineLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
             loadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loadButton.topAnchor.constraint(equalTo: quoteLabel.bottomAnchor, constant: 30),
+            loadButton.topAnchor.constraint(equalTo: offlineLabel.bottomAnchor, constant: 22),
             loadButton.widthAnchor.constraint(equalToConstant: 200),
             loadButton.heightAnchor.constraint(equalToConstant: 50)
         ])
@@ -64,13 +80,22 @@ class RandomQuoteViewController: UIViewController {
         case .loading:
             loadButton.isEnabled = false
             loadButton.setTitle("random_quote.button.loading".localized, for: .normal)
+            offlineLabel.isHidden = true
         case .loaded(let text):
             loadButton.isEnabled = true
             loadButton.setTitle("random_quote.button.load".localized, for: .normal)
+            offlineLabel.isHidden = true
+            quoteLabel.text = text
+        case .loadedFromCache(let text):
+            loadButton.isEnabled = true
+            loadButton.setTitle("random_quote.button.load".localized, for: .normal)
+            offlineLabel.isHidden = false
+            offlineLabel.text = "random_quote.offline_cache".localized
             quoteLabel.text = text
         case .failed(let message):
             loadButton.isEnabled = true
             loadButton.setTitle("random_quote.button.load".localized, for: .normal)
+            offlineLabel.isHidden = true
             quoteLabel.text = message
         }
     }
