@@ -93,7 +93,7 @@ XCTest.
    sed -i '' 's/objectVersion = 70;/objectVersion = 60;/' Navigation.xcodeproj/project.pbxproj
    ```
 
-## Что не сделано (честно)
+## Что не сделано
 
 - Нет DI-контейнера — сервисы создаются напрямую в инициализаторах с
   дефолтными значениями (`init(postsService: PostsServiceProtocol = PostsService())`),
