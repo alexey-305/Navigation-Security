@@ -61,6 +61,7 @@
 		BAA34A3785E9C4F8767F147B /* CategoryQuotesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60542B7A7BB6CFDAD7772FC /* CategoryQuotesViewModel.swift */; };
 		BB5F41DAB85C3450E53D3854 /* RandomQuoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00243B2ACC2747689141716 /* RandomQuoteViewModel.swift */; };
 		CC9A4E0E8417CB20D80F78CA /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 39AE4212906CC1DD58DC495F /* Localizable.stringsdict */; };
+		EFA24D27B3557027054D2E0D /* ExtensionUIViewAdaptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4D49C1B947F0C6DEBB0EF0 /* ExtensionUIViewAdaptive.swift */; };
 		F35F4A3D938E90A767B6D3B0 /* AppTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B64F59918D2A5FB8685496 /* AppTypography.swift */; };
 /* End PBXBuildFile section */
 
@@ -115,6 +116,7 @@
 		37E7C2B1301C7AD90094B0FB /* NavigationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NavigationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39AE4212906CC1DD58DC495F /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Localizable.stringsdict; path = Navigation/en.lproj/Localizable.stringsdict; sourceTree = SOURCE_ROOT; };
 		3D3EEF4896CA2177C6B7CEA1 /* Pods-Navigation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.release.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.release.xcconfig"; sourceTree = "<group>"; };
+		3F4D49C1B947F0C6DEBB0EF0 /* ExtensionUIViewAdaptive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExtensionUIViewAdaptive.swift; path = Navigation/Library/ExtensionUIViewAdaptive.swift; sourceTree = SOURCE_ROOT; };
 		4194F2E9C5C2123CBADD1C4B /* Pods-Navigation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Navigation.debug.xcconfig"; path = "Target Support Files/Pods-Navigation/Pods-Navigation.debug.xcconfig"; sourceTree = "<group>"; };
 		45B04453B52C7202D255486F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = User.swift; path = Navigation/Profile/User.swift; sourceTree = SOURCE_ROOT; };
 		534C4061B40F8F7FEE8FC9E3 /* PostObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostObject.swift; path = Navigation/PostObject.swift; sourceTree = SOURCE_ROOT; };
@@ -192,6 +194,7 @@
 				0F6E435683A8187F94EBD21E /* CategoriesViewModel.swift */,
 				E60542B7A7BB6CFDAD7772FC /* CategoryQuotesViewModel.swift */,
 				F3524738B5C4789A9949E984 /* FavoritesViewModel.swift */,
+				3F4D49C1B947F0C6DEBB0EF0 /* ExtensionUIViewAdaptive.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -530,6 +533,7 @@
 				7AC344669E66EB9A38B479C2 /* CategoriesViewModel.swift in Sources */,
 				BAA34A3785E9C4F8767F147B /* CategoryQuotesViewModel.swift in Sources */,
 				B7AA4EC086EF2F6C7BF3409A /* FavoritesViewModel.swift in Sources */,
+				EFA24D27B3557027054D2E0D /* ExtensionUIViewAdaptive.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -55,14 +55,13 @@ class PostViewController: UIViewController {
     }
     
     private func setupConstraints() {
+        authorLabel.pinAdaptiveWidth(in: view, maxWidth: 600)
+        descriptionLabel.pinAdaptiveWidth(in: view, maxWidth: 600)
+        
         NSLayoutConstraint.activate([
             authorLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
-            authorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            authorLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             descriptionLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 20),
-            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             likesLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20),
             likesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),

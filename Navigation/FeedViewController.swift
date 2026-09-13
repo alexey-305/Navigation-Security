@@ -5,7 +5,16 @@ class FeedViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let viewModel = FeedViewModel()
+    private let viewModel: FeedViewModel
+    
+    init(viewModel: FeedViewModel = AppDependencyContainer.shared.makeFeedViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - UI Elements
     
@@ -41,10 +50,9 @@ class FeedViewController: UIViewController {
     private func setupTableView() {
         view.addSubview(tableView)
         view.addSubview(loadingIndicator)
+        tableView.pinAdaptiveWidth(in: view, horizontalPadding: 0)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),

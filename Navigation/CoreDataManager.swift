@@ -118,18 +118,38 @@ class CoreDataManager {
     
     // MARK: - FILTER
     
-    func fetchPosts(byAuthor author: String) -> [FavoritePost] {
-        let fetchRequest: NSFetchRequest<FavoritePost> = FavoritePost.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "authorName CONTAINS[cd] %@", author)
-        let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        fetchRequest.fetchBatchSize = 20
-        
-        do {
-            return try viewContext.fetch(fetchRequest)
-        } catch {
-            print("❌ Ошибка фильтрации: \(error)")
-            return []
+    // MARK: - Кеш цитаты из сети (для офлайн-доступа, см. RandomQuoteViewModel)
+    
+    /// Сохраняет последнюю успешно загруженную из сети цитату, затирая предыдущий кеш —
+    /// нужен только самый свежий вариант на случай отсутствия сети при следующем запуске
+    func cacheQuote(value: String, category: String?) {
+        backgroundContext.perform { [weak self] in
+            guard let self = self else { return }
+            
+            let fetchRequest: NSFetchRequest<CachedQuote> = CachedQuote.fetchRequest()
+            if let old = try? self.backgroundContext.fetch(fetchRequest) {
+                old.forEach { self.backgroundContext.delete($0) }
+            }
+            
+            let cached = CachedQuote(context: self.backgroundContext)
+            cached.value = value
+            cached.category = category
+            cached.fetchedAt = Date()
+            
+            do {
+                try self.backgroundContext.save()
+                print("✅ Цитата закеширована для офлайн-доступа")
+            } catch {
+                print("❌ Ошибка кеширования цитаты: \(error)")
+            }
         }
+    }
+    
+    /// Последняя закешированная цитата — используется, если сеть недоступна
+    func lastCachedQuote() -> CachedQuote? {
+        let fetchRequest: NSFetchRequest<CachedQuote> = CachedQuote.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "fetchedAt", ascending: false)]
+        fetchRequest.fetchLimit = 1
+        return try? viewContext.fetch(fetchRequest).first
     }
 }

@@ -26,6 +26,7 @@
 "random_quote.button.loading" = "Loading...";
 "random_quote.category.none" = "No category";
 "random_quote.error.format" = "Error: %@";
+"random_quote.offline_cache" = "No connection — showing the last loaded quote";
 
 // MARK: - All Quotes
 "all_quotes.title" = "All Quotes";
