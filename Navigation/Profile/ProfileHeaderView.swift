@@ -9,7 +9,7 @@ class ProfileHeaderView: UIView {
         imageView.image = UIImage(named: "avatar")
         imageView.layer.cornerRadius = 50
         imageView.layer.borderWidth = 3
-        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderColor = AppColors.avatarBorder.cgColor
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -18,8 +18,8 @@ class ProfileHeaderView: UIView {
     private let fullNameLabel: UILabel = {
         let label = UILabel()
         label.text = "Hipster Cat"
-        label.font = UIFont.boldSystemFont(ofSize: 18)
-        label.textColor = .black
+        label.font = AppFonts.title
+        label.textColor = AppColors.primaryText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -27,8 +27,8 @@ class ProfileHeaderView: UIView {
     private let statusLabel: UILabel = {
         let label = UILabel()
         label.text = "Waiting for something..."
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .gray
+        label.font = AppFonts.callout
+        label.textColor = AppColors.secondaryText
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -36,11 +36,12 @@ class ProfileHeaderView: UIView {
     private let statusTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter new status"
-        textField.font = UIFont.systemFont(ofSize: 15)
+        textField.font = AppFonts.body
         textField.borderStyle = .roundedRect
-        textField.backgroundColor = .white
+        textField.backgroundColor = AppColors.background
+        textField.textColor = AppColors.primaryText
         textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.black.cgColor
+        textField.layer.borderColor = AppColors.separator.cgColor
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -48,8 +49,8 @@ class ProfileHeaderView: UIView {
     private let setStatusButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Set status", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
+        button.setTitleColor(AppColors.onAccentText, for: .normal)
+        button.backgroundColor = AppColors.accent
         button.layer.cornerRadius = 10
         button.layer.shadowOffset = CGSize(width: 4, height: 4)
         button.layer.shadowRadius = 4
@@ -71,7 +72,7 @@ class ProfileHeaderView: UIView {
     }
     
     private func setupViews() {
-        backgroundColor = .systemGray6
+        backgroundColor = AppColors.secondaryBackground
         addSubview(avatarImageView)
         addSubview(fullNameLabel)
         addSubview(statusLabel)
@@ -108,6 +109,13 @@ class ProfileHeaderView: UIView {
     
     private func setupActions() {
         setStatusButton.addTarget(self, action: #selector(setStatusButtonTapped), for: .touchUpInside)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+        avatarImageView.layer.borderColor = AppColors.avatarBorder.cgColor
+        statusTextField.layer.borderColor = AppColors.separator.cgColor
     }
     
     @objc private func setStatusButtonTapped() {

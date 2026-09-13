@@ -106,6 +106,71 @@ class RealmService {
         }
     }
     
+    // MARK: - Posts (CREATE)
+    
+    /// Заполняет базу стартовым набором постов один раз, если она ещё пустая
+    func seedPostsIfNeeded() {
+        guard let realm = realm else { return }
+        guard realm.objects(PostObject.self).isEmpty else { return }
+        
+        let seed: [(author: String, description: String, assetName: String, likes: Int, views: Int)] = [
+            ("Алексей", "Первый пост в ленте! Сегодня отличная погода ☀️", "post1", 5, 100),
+            ("Мария", "Изучаю Swift и создаю крутые приложения 🚀", "post2", 12, 250),
+            ("Иван", "CoreData — мощный инструмент для хранения данных", "post3", 8, 180),
+            ("Елена", "Realm vs CoreData: что выбрать для проекта? 🤔", "post4", 15, 320)
+        ]
+        
+        do {
+            try realm.write {
+                for (index, item) in seed.enumerated() {
+                    let object = PostObject()
+                    object.author = item.author
+                    object.postDescription = item.description
+                    object.imageAssetName = item.assetName
+                    object.likes = item.likes
+                    object.views = item.views
+                    // Сдвигаем даты, чтобы сохранить исходный порядок при сортировке по createdAt
+                    object.createdAt = Date().addingTimeInterval(TimeInterval(-index))
+                    realm.add(object)
+                }
+            }
+            print("✅ Стартовые посты добавлены (зашифровано)")
+        } catch {
+            print("❌ Ошибка заполнения постов: \(error)")
+        }
+    }
+    
+    func savePost(author: String, description: String, imageAssetName: String?, imageData: Data?, likes: Int = 0, views: Int = 0) {
+        guard let realm = realm else {
+            print("❌ Realm не инициализирован")
+            return
+        }
+        
+        let object = PostObject()
+        object.author = author
+        object.postDescription = description
+        object.imageAssetName = imageAssetName
+        object.imageData = imageData
+        object.likes = likes
+        object.views = views
+        
+        do {
+            try realm.write {
+                realm.add(object)
+            }
+            print("✅ Пост сохранён (зашифровано)")
+        } catch {
+            print("❌ Ошибка сохранения поста: \(error)")
+        }
+    }
+    
+    // MARK: - Posts (READ)
+    
+    func getAllPosts() -> Results<PostObject>? {
+        guard let realm = realm else { return nil }
+        return realm.objects(PostObject.self).sorted(byKeyPath: "createdAt", ascending: false)
+    }
+    
     // MARK: - READ
     
     func getAllQuotes() -> Results<Quote>? {

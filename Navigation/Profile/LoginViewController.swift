@@ -1,11 +1,19 @@
 import UIKit
-import FirebaseAuth
 
 class LoginViewController: UIViewController {
     
     // MARK: - Properties
-    private var loginDelegate: LoginViewControllerDelegate?
+    private let viewModel: LoginViewModel
     var onLoginSuccess: (() -> Void)?
+    
+    init(viewModel: LoginViewModel = AppDependencyContainer.shared.makeLoginViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - UI Elements
     private let scrollView: UIScrollView = {
@@ -31,12 +39,13 @@ class LoginViewController: UIViewController {
     private let loginTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Email"
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.backgroundColor = .systemGray6
+        textField.font = AppFonts.body
+        textField.backgroundColor = AppColors.secondaryBackground
         textField.layer.cornerRadius = 10
         textField.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         textField.layer.borderWidth = 0.5
-        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderColor = AppColors.separator.cgColor
+        textField.textColor = AppColors.primaryText
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         textField.leftViewMode = .always
         textField.autocapitalizationType = .none
@@ -49,12 +58,13 @@ class LoginViewController: UIViewController {
     private let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Password"
-        textField.font = UIFont.systemFont(ofSize: 16)
-        textField.backgroundColor = .systemGray6
+        textField.font = AppFonts.body
+        textField.backgroundColor = AppColors.secondaryBackground
         textField.layer.cornerRadius = 10
         textField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         textField.layer.borderWidth = 0.5
-        textField.layer.borderColor = UIColor.lightGray.cgColor
+        textField.layer.borderColor = AppColors.separator.cgColor
+        textField.textColor = AppColors.primaryText
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
         textField.leftViewMode = .always
         textField.isSecureTextEntry = true
@@ -77,9 +87,9 @@ class LoginViewController: UIViewController {
     private let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.backgroundColor = UIColor(red: 72/255, green: 133/255, blue: 204/255, alpha: 1.0)
+        button.setTitleColor(AppColors.onAccentText, for: .normal)
+        button.titleLabel?.font = AppFonts.button
+        button.backgroundColor = AppColors.accent
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -88,18 +98,32 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Задача 1: кнопка авторизации по биометрии
+    private let biometricButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.tintColor = AppColors.accent
+        button.layer.cornerRadius = 10
+        button.layer.borderWidth = 1
+        button.layer.borderColor = AppColors.separator.cgColor
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isHidden = true
+        return button
+    }()
+    
+    private let localAuthorizationService = AppDependencyContainer.shared.localAuthorizationService
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("🟢 viewDidLoad")
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.background
         
         setupViews()
         setupConstraints()
         setupTextFields()
         setupButtonAction()
-        setupDelegate()
         setupTapGesture()
+        bindViewModel()
+        setupBiometricButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,11 +131,21 @@ class LoginViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+        loginTextField.layer.borderColor = AppColors.separator.cgColor
+        passwordTextField.layer.borderColor = AppColors.separator.cgColor
+        biometricButton.layer.borderColor = AppColors.separator.cgColor
+    }
+    
     // MARK: - Setup
-    private func setupDelegate() {
-        let inspector = LoginInspector(viewController: self)
-        self.loginDelegate = inspector
-        print("🟢 Делегат установлен: \(inspector)")
+    private func bindViewModel() {
+        viewModel.onStateChanged = { [weak self] state in
+            DispatchQueue.main.async {
+                self?.handle(state: state)
+            }
+        }
     }
     
     private func setupViews() {
@@ -121,6 +155,7 @@ class LoginViewController: UIViewController {
         contentView.addSubview(logoImageView)
         contentView.addSubview(stackView)
         contentView.addSubview(loginButton)
+        contentView.addSubview(biometricButton)
         
         stackView.addArrangedSubview(loginTextField)
         stackView.addArrangedSubview(passwordTextField)
@@ -153,7 +188,12 @@ class LoginViewController: UIViewController {
             loginButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             loginButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             loginButton.heightAnchor.constraint(equalToConstant: 50),
-            loginButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+            
+            biometricButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 16),
+            biometricButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            biometricButton.widthAnchor.constraint(equalToConstant: 50),
+            biometricButton.heightAnchor.constraint(equalToConstant: 50),
+            biometricButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ])
     }
     
@@ -164,12 +204,43 @@ class LoginViewController: UIViewController {
     
     private func setupButtonAction() {
         loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
-        print("🟢 Кнопке назначен метод loginButtonTapped")
     }
     
     private func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         view.addGestureRecognizer(tapGesture)
+    }
+    
+    // MARK: - Задача 1 / 2*: настройка кнопки биометрии
+    private func setupBiometricButton() {
+        let biometricType = localAuthorizationService.availableBiometricType
+        
+        switch biometricType {
+        case .faceID:
+            biometricButton.setImage(UIImage(systemName: "faceid"), for: .normal)
+            biometricButton.isHidden = false
+        case .touchID:
+            biometricButton.setImage(UIImage(systemName: "touchid"), for: .normal)
+            biometricButton.isHidden = false
+        case .none:
+            biometricButton.isHidden = true
+        }
+        
+        biometricButton.addTarget(self, action: #selector(biometricButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func biometricButtonTapped() {
+        localAuthorizationService.authorizeIfPossible { [weak self] success, error in
+            guard let self = self else { return }
+            
+            if success {
+                self.onLoginSuccess?()
+            } else {
+                // Задача 2*: показываем пользователю причину неудачи
+                let message = error?.localizedDescription ?? "Не удалось выполнить авторизацию по биометрии"
+                self.showError(message)
+            }
+        }
     }
     
     // MARK: - Actions
@@ -186,72 +257,34 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func loginButtonTapped() {
-        print("🔵🔵🔵 КНОПКА НАЖАТА! 🔵🔵🔵")
-        
-        guard let email = loginTextField.text, !email.isEmpty,
-              let password = passwordTextField.text, !password.isEmpty else {
-            print("❌ Поля пустые")
-            showError("Пожалуйста, заполните все поля")
-            return
-        }
-        
-        print("📧 Email: \(email)")
-        print("🔒 Password: \(password)")
-        
-        guard email.contains("@") else {
-            print("❌ Неверный формат email")
-            showError("Введите корректный email")
-            return
-        }
-        
-        guard password.count >= 6 else {
-            print("❌ Пароль слишком короткий")
-            showError("Пароль должен быть не менее 6 символов")
-            return
-        }
-        
-        loginButton.isEnabled = false
-        loginButton.setTitle("Загрузка...", for: .normal)
-        
-        print("🟢 loginDelegate = \(loginDelegate != nil ? "НЕ nil" : "nil")")
-        
-        print("🟢 Вызываем loginDelegate?.checkCredentials")
-        loginDelegate?.checkCredentials(email: email, password: password)
-        
-        if loginDelegate == nil {
-            print("⚠️ Делегат nil! Вызываем Firebase напрямую")
-            Auth.auth().signIn(withEmail: email, password: password) { result, error in
-                print("📡 Прямой вызов Firebase завершён")
-                if let error = error {
-                    print("❌ Ошибка: \(error)")
-                } else {
-                    print("✅ Успех!")
-                    self.onLoginSuccess?()
-                }
-            }
+        let email = loginTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
+        viewModel.updateState(.loginButtonDidTap(email: email, password: password))
+    }
+    
+    // MARK: - State handling
+    private func handle(state: LoginViewState) {
+        switch state {
+        case .idle:
+            break
+        case .loading:
+            loginButton.isEnabled = false
+            loginButton.setTitle("Загрузка...", for: .normal)
+        case .success:
+            loginButton.isEnabled = true
+            loginButton.setTitle("Log In", for: .normal)
+            onLoginSuccess?()
+        case .error(let message):
+            loginButton.isEnabled = true
+            loginButton.setTitle("Log In", for: .normal)
+            loginButton.alpha = 1.0
+            showError(message)
         }
     }
     
-    // MARK: - Firebase Response
-    func loginSuccess() {
-        DispatchQueue.main.async {
-            print("✅✅✅ loginSuccess вызван! ✅✅✅")
-            self.loginButton.isEnabled = true
-            self.loginButton.setTitle("Log In", for: .normal)
-            self.onLoginSuccess?()
-        }
-    }
-    
-    func showError(_ message: String) {
-        DispatchQueue.main.async {
-            print("❌ showError: \(message)")
-            self.loginButton.isEnabled = true
-            self.loginButton.setTitle("Log In", for: .normal)
-            self.loginButton.alpha = 1.0
-            
-            let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alert, animated: true)
-        }
+    private func showError(_ message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 }

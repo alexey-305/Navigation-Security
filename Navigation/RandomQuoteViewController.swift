@@ -2,24 +2,44 @@ import UIKit
 
 class RandomQuoteViewController: UIViewController {
     
-    private let apiService = APIService()
-    private let realmService = RealmService.shared
+    private let viewModel: RandomQuoteViewModel
+    
+    init(viewModel: RandomQuoteViewModel = AppDependencyContainer.shared.makeRandomQuoteViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let quoteLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.font = .systemFont(ofSize: 18)
+        label.font = AppFonts.body
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Нажмите кнопку, чтобы загрузить цитату"
+        label.text = "random_quote.hint".localized
+        return label
+    }()
+    
+    private let offlineLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = AppFonts.caption
+        label.textColor = .systemOrange
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.isHidden = true
         return label
     }()
     
     private let loadButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Загрузить цитату", for: .normal)
-        button.backgroundColor = .systemBlue
-        button.setTitleColor(.white, for: .normal)
+        button.setTitle("random_quote.button.load".localized, for: .normal)
+        button.backgroundColor = AppColors.accent
+        button.setTitleColor(AppColors.onAccentText, for: .normal)
+        button.titleLabel?.font = AppFonts.button
         button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -27,46 +47,67 @@ class RandomQuoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        title = "Случайная цитата"
+        view.backgroundColor = AppColors.background
+        title = "random_quote.title".localized
         setupUI()
+        bindViewModel()
         loadButton.addTarget(self, action: #selector(loadQuote), for: .touchUpInside)
     }
     
     private func setupUI() {
         view.addSubview(quoteLabel)
+        view.addSubview(offlineLabel)
         view.addSubview(loadButton)
         
+        quoteLabel.pinAdaptiveWidth(in: view, maxWidth: 600)
+        offlineLabel.pinAdaptiveWidth(in: view, maxWidth: 600)
+        
         NSLayoutConstraint.activate([
-            quoteLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             quoteLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
-            quoteLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            quoteLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            offlineLabel.topAnchor.constraint(equalTo: quoteLabel.bottomAnchor, constant: 8),
             
             loadButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loadButton.topAnchor.constraint(equalTo: quoteLabel.bottomAnchor, constant: 30),
+            loadButton.topAnchor.constraint(equalTo: offlineLabel.bottomAnchor, constant: 22),
             loadButton.widthAnchor.constraint(equalToConstant: 200),
             loadButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
-    @objc private func loadQuote() {
-        loadButton.isEnabled = false
-        loadButton.setTitle("Загрузка...", for: .normal)
-        
-        apiService.fetchRandomQuote { [weak self] result in
-            DispatchQueue.main.async {
-                self?.loadButton.isEnabled = true
-                self?.loadButton.setTitle("Загрузить цитату", for: .normal)
-                
-                switch result {
-                case .success(let quote):
-                    self?.quoteLabel.text = quote.value
-                    self?.realmService.saveQuote(text: quote.value, category: quote.category ?? "Без категории")
-                case .failure(let error):
-                    self?.quoteLabel.text = "Ошибка: \(error.localizedDescription)"
-                }
-            }
+    private func bindViewModel() {
+        viewModel.onStateChanged = { [weak self] state in
+            self?.handle(state: state)
         }
+    }
+    
+    private func handle(state: RandomQuoteViewState) {
+        switch state {
+        case .idle:
+            break
+        case .loading:
+            loadButton.isEnabled = false
+            loadButton.setTitle("random_quote.button.loading".localized, for: .normal)
+            offlineLabel.isHidden = true
+        case .loaded(let text):
+            loadButton.isEnabled = true
+            loadButton.setTitle("random_quote.button.load".localized, for: .normal)
+            offlineLabel.isHidden = true
+            quoteLabel.text = text
+        case .loadedFromCache(let text):
+            loadButton.isEnabled = true
+            loadButton.setTitle("random_quote.button.load".localized, for: .normal)
+            offlineLabel.isHidden = false
+            offlineLabel.text = "random_quote.offline_cache".localized
+            quoteLabel.text = text
+        case .failed(let message):
+            loadButton.isEnabled = true
+            loadButton.setTitle("random_quote.button.load".localized, for: .normal)
+            offlineLabel.isHidden = true
+            quoteLabel.text = message
+        }
+    }
+    
+    @objc private func loadQuote() {
+        viewModel.loadRandomQuote()
     }
 }
